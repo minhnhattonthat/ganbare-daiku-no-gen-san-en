@@ -44,6 +44,9 @@ def test_book_blocks_draw_the_english_plaques():
     lay = struct.unpack("<256H", decompress(rom, gfx.B_LAYOUT)[0])
     for (rect, _), (_, _, img) in zip(gfx.PLAQUES, imgs):
         assert redraw(blocks[gfx.B_TILES], defs, lay, 16, rect, gfx.B_PAL).tobytes() == img.tobytes()
+    back = struct.unpack("<256H", decompress(rom, gfx.B_BACK)[0])
+    got = redraw(blocks[gfx.B_TILES], defs, back, 16, gfx.BACK_RECT, gfx.B_PAL)
+    assert got.tobytes() == imgs[-1][2].tobytes()
 
 
 @needs_rom

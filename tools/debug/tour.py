@@ -13,9 +13,13 @@ from skill import SKILL  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 WARP = os.path.join(ROOT, "tools", "debug", "warp.lua")
-# scene -> frames: every scene that draws text (story pages, cards, dialogue, ending, staff roll, continue, HUD)
-SCENES = {f"clear_{n}": 4500 for n in range(1, 13)} | {"clear_13": 16000, "continue": 2500, "s1a_chk0": 1800,
-                                                       "gameover": 3000}
+# scene -> frames: every scene that draws text (story pages, cards, dialogue, ending, staff roll, continue, HUD),
+# the title and menu book (boot, from s1a_chk0's cold start), every stage half and boss (HUD, backgrounds, boss
+# intros), and the back cover after the ending (clear_13 runs to 17100)
+SCENES = ({f"clear_{n}": 4500 for n in range(1, 13)} | {"clear_13": 17100, "continue": 2500, "s1a_chk0": 1800,
+                                                         "gameover": 3000}
+          | {s: 2600 for s in ("s1b", "s2a_chk0", "s2b_chk0", "s2_boss", "s3a", "s3_boss", "s4a_chk0", "s4_boss",
+                               "final")})
 
 
 def run(rom, out, name, frames, every, adv):

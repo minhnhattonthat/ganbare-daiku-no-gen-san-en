@@ -75,7 +75,7 @@ def cells_of(lay, gw, rect):
     cells = {}
     for my in range(mh):
         for mx in range(mw):
-            m = lay[(my0 + my) * gw + mx0 + mx]
+            m = lay[(my0 + my) * gw + mx0 + mx] & ~0x1F  # low bits: flags (8 = blank/priority), not offset
             for ty in range(4):
                 for tx in range(4):
                     cells[(4 * mx + tx, 4 * my + ty)] = m // 2 + 4 * ty + tx
@@ -305,6 +305,49 @@ def bottoms(img, cols):
             if any(img.getpixel((x, y)) != (0, 0, 0) for y in range(img.size[1]))}
 
 
+B_BACK = 0x8EB23  # BG1 layout of the back cover (book variant 1, after the ending)
+BACK_RECT = (0, 8, 16, 8)  # metatiles: screens 2-3, the flat back cover and its copy lifting off
+# flat ©アイレム line: アイレム (x0, y0, x1, y1 px in BACK_RECT) becomes IREM; the lifted copy is the flat line
+# squeezed and sheared: x' = X + (x - FX) * SX, y' = Y + (y - FY) + (x - FX) * SY
+KANA = (56, 191, 88, 201)
+LIFT = (48, 192, 352, 157, 0.82, 0.21)  # fitted to the © and the end of the kana (the digits' far end agrees)
+
+
+def back_cover(rom, tiles, defs, jobs):
+    """G3: the back cover's copyright line spells the publisher in katakana (アイレム); English: IREM, in the same
+    gold (colour 3) with the dark shadow (colour 8) right and below, on the flat cover and the lifted copy."""
+    lay = struct.unpack("<256H", decompress(rom, B_BACK)[0])
+    cells = cells_of(lay, 16, BACK_RECT)
+    orig = render(tiles, defs, cells, B_PAL, (32 * BACK_RECT[2], 32 * BACK_RECT[3]))
+    img = orig.copy()
+    gold, shade = B_PAL[4][3], B_PAL[4][8]
+    x0, y0, x1, y1 = KANA
+    fx, fy, lx, ly, sx, sy = LIFT
+
+    def lifted(x, y):
+        return round(lx + (x - fx) * sx), round(ly + (y - fy) + (x - fx) * sy)
+
+    def lifted_ink(x, y):  # letters keep their width (squeezed 4 px letters merge); only the start moves
+        return round(lx + (x0 - fx) * sx) + x - x0, round(ly + (y - fy) + (x - fx) * sy)
+    for x in range(x0, x1):
+        for y in range(y0, y1):
+            for p in ((x, y), lifted(x, y)):
+                if img.getpixel(p) in (gold, shade):
+                    img.putpixel(p, (0, 0, 0))
+    pts, _ = pixel_text("IREM")
+    ink = {(x0 + 1 + x, y0 + 1 + y) for x, y in pts}
+    for x, y in sorted(ink):
+        for p in ((x + 1, y), (x, y + 1), (x + 1, y + 1)):
+            if p not in ink:
+                img.putpixel(p, shade)
+                img.putpixel(lifted_ink(*p), shade)
+    for p in ink:
+        img.putpixel(p, gold)
+        img.putpixel(lifted_ink(*p), gold)
+    jobs.append((img, cells, changed_cells(img, orig, cells), lambda px, _: (4, B_PAL[4], 0)))
+    return orig, img
+
+
 def book(rom):
     tiles = decompress(rom, B_TILES)[0]
     n = len(decompress(rom, B_DEFS)[0]) // 2
@@ -337,6 +380,7 @@ def book(rom):
                     img.putpixel((u, v), (0, 0, 0))
         imgs.append((f"book{k}", orig, img))
         jobs.append((img, cells, changed_cells(img, orig, cells), lambda px, _: (4, B_PAL[4], 0)))
+    imgs.append(("back",) + back_cover(rom, tiles, defs, jobs))
     new_tiles, new_defs = encode(tiles, defs, jobs)
     return imgs, {B_TILES: new_tiles, B_DEFS: struct.pack(f"<{n}H", *new_defs)}
 
