@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 import batches  # noqa: E402
+import fit  # noqa: E402
 import script  # noqa: E402
 
 CODES = {"{nl}", "{br}", "{half}", "{kana}", "{page}", "{end}"}
@@ -45,6 +46,8 @@ def test_edge_blanks_match():
 
 def test_no_stub_last_line():
     for e in filled():
+        if fit.WINDOWS.get(fit.box_of(e["name"]), {}).get("short"):  # boxes too narrow for a 6-letter line rule
+            continue
         for part in e["en"].removesuffix("{end}").split("{page}"):
             ls = [s for s in (re.sub(r"\{[^}]*\}", "", x).strip() for x in re.split(r"\{nl\}|\{br\}", part)) if s]
             assert len(ls) < 2 or len(ls[-1]) >= 6, f"{e['name']}: stub last line {ls[-1]!r}"

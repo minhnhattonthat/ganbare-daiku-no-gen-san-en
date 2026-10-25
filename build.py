@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "tools"))
 import check_rom  # noqa: E402
 import engine  # noqa: E402
+import gfx  # noqa: E402
 import romdiff  # noqa: E402
 import script  # noqa: E402
 from text_map import ROM, layout, scan, texts  # noqa: E402
@@ -77,7 +78,8 @@ def main():
             "".join(f"{n} {e['id']} {e['name']}\n" for n, e in enumerate(marked)), encoding="utf-8")
     out, writes = layout(big, items, refs, text, en, engine.MOVES)
     out, more = engine.apply(out)
-    writes = sorted(writes + more)
+    out, art = engine.apply(out, gfx.patches(out))
+    writes = sorted(writes + more + art)
     errs, _ = romdiff.check(rom, out, set(), writes)
     if errs:
         sys.exit("\n".join(errs))

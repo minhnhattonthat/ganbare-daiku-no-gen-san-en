@@ -49,6 +49,8 @@ PATCHES = [
     (0x2B432, bytes.fromhex("5300470052006d000000"), bytes.fromhex("2c001c0028002b001e00"), "HUD label SCORE"),
     (0x2B472, bytes.fromhex("4f00410067007500"), bytes.fromhex("250022001f001e00"), "HUD label LIFE"),
     (0x2B4B2, bytes.fromhex("8300a7008000"), bytes(6), "HUD label AREA dropped"),
+    # title answer bubble params (x, y, ...): x 6 was the right column of the vertical kana; English lines start at 4
+    (0x10EE, b"\x06", b"\x04", "title answer bubble x = 4 (as the first bubble)"),
     (0x40D80, bytes.fromhex("0804110c21184130215011280815000c"), bytes.fromhex("00000100010001000100010000010000"),
      "BG3 tile D8: bar cap without く"),
 ]
@@ -93,11 +95,13 @@ def expand(rom):
     return rom + b"\xff" * (SIZE - len(rom))
 
 
-def apply(rom):
-    """Patch an expanded ROM (text already laid out). Returns (new rom, writes) for romdiff.py --writes."""
+def apply(rom, writes=None):
+    """Patch an expanded ROM (text already laid out) with the engine patches, or with `writes` when given.
+    Returns (new rom, writes) for romdiff.py --writes."""
     out = bytearray(rom)
-    code = stage_name(0xC0 | MOVES[STAGES] >> 16)
-    writes = PATCHES + [font_patch(rom), (CODE, b"\xff" * len(code), code, "D0:0000 stage_name")]
+    if writes is None:
+        code = stage_name(0xC0 | MOVES[STAGES] >> 16)
+        writes = PATCHES + [font_patch(rom), (CODE, b"\xff" * len(code), code, "D0:0000 stage_name")]
     for off, old, new, why in writes:
         if rom[off:off + len(old)] != old:
             raise ValueError(f"{off:06X} {why}: expected {old.hex()}, ROM has {rom[off:off + len(old)].hex()}")

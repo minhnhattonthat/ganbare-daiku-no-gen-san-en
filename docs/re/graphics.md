@@ -6,8 +6,8 @@ decompressed tile set, `raw_<bank>.png` = raw 4bpp bank).
 
 | # | Screen | Element | Layer | Source | State |
 |---|---|---|---|---|---|
-| G1 | title | logo がんばれ! 大工の源さん on the wood board | BG1/2 | compressed tiles 0x8ED54 + maps 0x919BC, 0x91E9F, 0x91EE2 | seen f1100 |
-| G2 | menu book (after title) | cover label 大工の源さん | BG | compressed tiles 0x8AF06 + maps 0x8DEBE, 0x8E98B, 0x8E9F6 | seen f1000 |
+| G1 | title | logo がんばれ! 大工の源さん on the wood board | BG2 | tiles 0x8ED54, 4x4 metatile defs 0x919BC, layout 0x91EE2 (8x8 metatiles; 0x91E9F = BG1 forest) | **English** (`tools/gfx.py` title: HAMMERIN' / HARRY), zoomed in game |
+| G2 | menu book (after title) | cover plaque 大工の源さん (+ its copy on the lifting cover) | BG1 | tiles 0x8AF06, defs 0x8DEBE, layouts per variant in table C2:33D7 (BG1 0x8E98B, BG2 0x8E9F6; variant 1 = back cover 0x8EB23/0x8EC27) | **English** (`tools/gfx.py` book), both frames zoomed in game |
 | G3 | unknown (opening / book pages?) | slanted printed text in the same tile set as G2: a katakana ©-line with the year, `PRESENTED BY` (English), a catalogue number | BG | 0x8AF06 | static sweep only; find the screen in phase 2 |
 | G4 | in-stage HUD | small icons only; labels are font text (`text.md` format C) | BG3 | - | seen |
 | G5 | irem logo, intro house (`NEW` letters) | English already | - | 0x7627E, 0x91F41 | seen, nothing to do |

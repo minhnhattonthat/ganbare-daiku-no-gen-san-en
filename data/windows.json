@@ -1,4 +1,10 @@
 {
+  "bubble": {
+    "match": ["title10E2", "title10EE"],
+    "cells": 6, "lines": 9, "upper": true, "page": false, "short": true,
+    "what": "title-screen speech bubble (BG3 font, from col 4) and its answer, which only clears cols 4-9 of the first",
+    "measured": "2026-10-26 work/qa/title_go: 8 cells fit the frame, but the answer left cols 10-11 of the first text on screen"
+  },
   "page": {
     "match": ["page"],
     "cells": 27, "lines": 4, "page": false,
