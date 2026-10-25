@@ -11,11 +11,17 @@ decompressed tile set, `raw_<bank>.png` = raw 4bpp bank).
 | G3 | unknown (opening / book pages?) | slanted printed text in the same tile set as G2: a katakana ©-line with the year, `PRESENTED BY` (English), a catalogue number | BG | 0x8AF06 | static sweep only; find the screen in phase 2 |
 | G4 | in-stage HUD | small icons only; labels are font text (`text.md` format C) | BG3 | - | seen |
 | G5 | irem logo, intro house (`NEW` letters) | English already | - | 0x7627E, 0x91F41 | seen, nothing to do |
+| G6 | continue (warp `continue`) | two carved wooden signposts: retry (left) / quit (right), hand-lettered kana | BG | not traced | seen, zoomed (`work/qa/zoom_misc.png`) |
+| G7 | in-stage hits | impact bursts (`BAM!`-style) | OBJ | raw banks CA-CF | seen small; read zoomed in phase 8 |
 
-## Still to survey (needs the phase-2 warp tool)
+Not graphics (font text, belongs in `text.md`; phase-1 scan missed them): story-book pages before each stage
+(warps `clear_2`..`clear_12`), the ending dialogue box (`ending`), the continue speech bubble, the ending epilogue
+ticker that scrolls along the bottom of the night-city scene, the cast/staff roll, and the map's chapter label
+(`n章前編/後編`, the known stage-name records).
 
-- Every stage start (1-4, FINAL), each boss intro and defeat, stage clear, game over, continue, 2-player screens,
-  ending and staff roll. Sprite text (e.g. GO / boss name tags) streams raw from banks CA-CF (`raw_c..f.png`); look at
-  each in a zoomed in-game shot, the grey static renders are not readable enough for small sprite text.
+## Still to survey
+
+- Boss intros/defeats and the stage-clear moment inside stage play (needs a boss win: no warp yet, see
+  `docs/status.md`), and 2-player screens if any.
 - Static sweep with real palettes: render each tile set with the palette from its scene's PPU dump
   (`tools/gfx_blocks.py --out`, then `tiles.py render --pal`) and hand the sheets to read-only reviewers.

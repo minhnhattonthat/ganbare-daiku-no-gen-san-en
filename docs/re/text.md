@@ -36,7 +36,8 @@ Addresses: HiROM, file offset = CPU address & 0x3FFFFF. Dump per `rom.sha1`.
 | 0x1113-0x11C8 | options menu (ATTACK/JUMP/SPECIAL/SOUND/BGM/EFFECT/LEVEL/EXIT): **already English** | 7E:9xxx |
 | 0x1236-0x1440 | leftover debug stage select, `STAGE n (1ST HALF) CHKn` ... `FINAL STAGE`: English, debug only | table 7E:91DE, param 7E:91D8 |
 
-Scanner (`work/re/scan_text.py`, throwaway) found no other format-A Japanese in the ROM: the game has very little text.
+Scanner (`work/re/scan_text.py`, throwaway) found no other format-A Japanese in the ROM. **Wrong conclusion:** the
+game has a real script in another format (see "Not found yet").
 
 ## Format B: raw font codes (verified)
 
@@ -51,5 +52,13 @@ Scanner (`work/re/scan_text.py`, throwaway) found no other format-A Japanese in 
 
 ## Not found yet
 
-Stage intro cards, boss or ending text, game over / continue: none showed up in the scans. Check each when the debug
-tool warps there (phase 2); if they are pictures they go in `graphics.md`.
+Phase-2 warps found a kanji + kana script the format-A/B scans never saw (encoding, pointers and font unknown):
+
+- story-book pages before stages 2-13: a picture plus ~4 lines of 12x12-ish kanji/kana, some pages with portraits and
+  a dialogue panel (warps `clear_2` .. `clear_12`; states `work/states/clear_<n>.mss`);
+- ending dialogue box, 3 lines (warp `ending`), then an epilogue line scrolling along the bottom of the night-city
+  scene, then the cast/staff roll (`ending` with `--var ADV=40 --frames 14000`, shots `work/qa/w_ending_full`);
+- continue screen speech bubble (warp `continue`).
+
+Lead for the next session: from `work/states/clear_3.mss`, log DMA to VRAM (`snes_dmalog.lua`) and ROM reads
+(`snes_romreads.lua`) while a page draws; the kanji suggest a 2-byte code or a per-page tile set, not JIS X 0201.
