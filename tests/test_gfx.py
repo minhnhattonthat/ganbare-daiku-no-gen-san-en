@@ -44,3 +44,13 @@ def test_book_blocks_draw_the_english_plaques():
     lay = struct.unpack("<256H", decompress(rom, gfx.B_LAYOUT)[0])
     for (rect, _), (_, _, img) in zip(gfx.PLAQUES, imgs):
         assert redraw(blocks[gfx.B_TILES], defs, lay, 16, rect, gfx.B_PAL).tobytes() == img.tobytes()
+
+
+@needs_rom
+def test_continue_blocks_draw_the_english_signs():
+    rom = ROM.read_bytes()
+    imgs, blocks = gfx.signs(rom)
+    defs = struct.unpack(f"<{len(blocks[gfx.C_DEFS]) // 2}H", blocks[gfx.C_DEFS])
+    lay = struct.unpack("<64H", decompress(rom, gfx.C_LAYOUT)[0])
+    got = redraw(blocks[gfx.C_TILES], defs, lay, 8, (0, 0, 8, 8), gfx.C_PAL)
+    assert got.tobytes() == imgs[0][2].tobytes()

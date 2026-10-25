@@ -8,6 +8,7 @@ engine.apply; each new block is a raw (type 14) block in bank D8, and the loader
 
     python -X utf8 tools/gfx.py [--png DIR]   # write the redrawn images (and the original) as PNGs to look at
 """
+import collections
 import math
 import struct
 import sys
@@ -190,7 +191,7 @@ def changed_cells(img, orig, cells):
 
 def encode(tiles, defs, jobs):
     """jobs = [(img, cells, changed, pick)]: each changed cell gets a tile (deduplicated) and its def entry;
-    pick(pixels) -> (palette, colours, first usable index). Tile ids that only changed cells used are reused, then
+    pick(pixels, old entry) -> (palette, colours, first usable index). Tile ids that only changed cells used are reused, then
     the set grows. Returns (tiles, defs)."""
     tiles, defs = bytearray(tiles), list(defs)
     redrawn = {cells[c] for _, cells, changed, _ in jobs for c in changed}
@@ -200,7 +201,7 @@ def encode(tiles, defs, jobs):
     for img, cells, changed, pick in jobs:
         for c in sorted(changed, key=lambda c: (c[1], c[0])):
             px = [img.getpixel((8 * c[0] + k % 8, 8 * c[1] + k // 8)) for k in range(64)]
-            pal, cols, lo = pick(px)
+            pal, cols, lo = pick(px, defs[cells[c]])
             idx = [min(range(lo, 16), key=lambda n: sum((a - b) ** 2 for a, b in zip(cols[n], p))) for p in px]
             for k, v in enumerate(idx):  # the image shows what ships
                 img.putpixel((8 * c[0] + k % 8, 8 * c[1] + k // 8), cols[v])
@@ -230,7 +231,7 @@ def title(rom):
     orig = render(tiles, defs, cells, COLOURS, (32 * BOARD[2], 32 * BOARD[3]))
     img = letter(erase(orig))
 
-    def pick(px):
+    def pick(px, _):
         pal = 3 if {BLUE, BLUE_D} & set(px) else 1
         return pal, COLOURS[pal], 8
     new_tiles, new_defs = encode(tiles, defs, [(img, cells, changed_cells(img, orig, cells), pick)])
@@ -335,12 +336,60 @@ def book(rom):
                 if 0 <= v < img.size[1] and img.getpixel((u, v)) != (0, 0, 0):
                     img.putpixel((u, v), (0, 0, 0))
         imgs.append((f"book{k}", orig, img))
-        jobs.append((img, cells, changed_cells(img, orig, cells), lambda px: (4, B_PAL[4], 0)))
+        jobs.append((img, cells, changed_cells(img, orig, cells), lambda px, _: (4, B_PAL[4], 0)))
     new_tiles, new_defs = encode(tiles, defs, jobs)
     return imgs, {B_TILES: new_tiles, B_DEFS: struct.pack(f"<{n}H", *new_defs)}
 
 
-SCREENS = ((title, "G1 title"), (book, "G2 book cover"))
+C_TILES, C_DEFS, C_LAYOUT = 0x788C5, 0x792F5, 0x7949C
+LOADS |= {C_TILES: 0x23ACA, C_DEFS: 0x23AD4}
+# CGRAM sub-palettes 2 (light sign) and 3 (dark sign) on the continue screen
+C_PAL = {n: [rgb(c) for c in p] for n, p in (
+    (2, (0x3235, 0x7BDD, 0x0000, 0x1E1B, 0x32FF, 0x539E, 0x006B, 0x0935, 0x00B0, 0x00AB, 0x0D2F, 0x19B3, 0x2A37,
+         0x0068, 0x0000, 0x0000)),
+    (3, (0x3235, 0x7BDD, 0x0000, 0x006A, 0x008D, 0x00CF, 0x0023, 0x0048, 0x0026, 0x00AB, 0x0D2F, 0x19B3, 0x2A37,
+         0x0068, 0x0000, 0x0000)))}
+# lettered part of each sign face (x0, y0, x1, y1 px in the 8x8-metatile layout), its palette, the new word;
+# letters are colour 5 with a colour-6 outline in both palettes
+SIGNS = (((29, 98, 86, 125), 2, "YEAH!"), ((181, 98, 237, 125), 3, "NOPE"))
+
+
+def signs(rom):
+    """Continue screen (G6): the two carved signposts, retry (left) and quit (right). Letter pixels take their
+    row's commonest other colour (the grain runs along the log), then the English is cut in the same two colours."""
+    tiles = decompress(rom, C_TILES)[0]
+    n = len(decompress(rom, C_DEFS)[0]) // 2
+    defs = list(struct.unpack(f"<{n}H", decompress(rom, C_DEFS)[0]))
+    lay = struct.unpack("<64H", decompress(rom, C_LAYOUT)[0])
+    cells = cells_of(lay, 8, (0, 0, 8, 8))
+    orig = render(tiles, defs, cells, C_PAL, (256, 256))
+    img = orig.copy()
+    for (x0, y0, x1, y1), pal, text in SIGNS:
+        fill, line = C_PAL[pal][5], C_PAL[pal][6]
+        for y in range(y0, y1):
+            row = [img.getpixel((x, y)) for x in range(x0, x1)]
+            bg = collections.Counter(c for c in row if c not in (fill, line)).most_common(1)[0][0]
+            for x in range(x0, x1):
+                if img.getpixel((x, y)) in (fill, line):
+                    img.putpixel((x, y), bg)
+        big = Image.new("L", img.size)
+        big.paste(word(text, (x1 - x0 - 6, y1 - y0 - 8)), (x0 + 3, y0 + 4))
+        rim = big.filter(ImageFilter.MaxFilter(3))
+        for y in range(y0, y1):
+            for x in range(x0, x1):
+                if big.getpixel((x, y)):
+                    img.putpixel((x, y), fill)
+                elif rim.getpixel((x, y)):
+                    img.putpixel((x, y), line)
+
+    def pick(px, entry):
+        pal = entry >> 10 & 7
+        return pal, C_PAL[pal], 1
+    new_tiles, new_defs = encode(tiles, defs, [(img, cells, changed_cells(img, orig, cells), pick)])
+    return [("continue", orig, img)], {C_TILES: new_tiles, C_DEFS: struct.pack(f"<{n}H", *new_defs)}
+
+
+SCREENS = ((title, "G1 title"), (book, "G2 book cover"), (signs, "G6 continue signs"))
 
 
 def patches(rom):
