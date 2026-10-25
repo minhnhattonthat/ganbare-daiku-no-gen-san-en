@@ -12,7 +12,7 @@ Addresses are for the dump in `rom.sha1` unless a note says otherwise.
 
 | File | Covers | State |
 |---|---|---|
-| [text.md](text.md) | font, format A strings (JIS X 0201 via C0:9411), stage names, HUD tilemap, every text location | verified (font F7/FA/FB unread) |
+| [text.md](text.md) | fonts, format A strings (JIS X 0201 via C0:9411), stage names, HUD tilemap, format D story script (16x16 font, `tools/story_text.py`), every text location | verified (font F7/FA/FB unread) |
 | [rom.md](rom.md) | header, free space (none), 7E:9000 WRAM copy, RLE compression, debug-menu flags | verified (debug flags not run yet) |
 | [graphics.md](graphics.md) | graphics-text survey | partial: boss win / clear moment not reached yet |
 | [flow.md](flow.md) | game flow graph (7E:80xx nodes), debug stage select, cheat RAM | verified by `tools/debug/run_all.py` |
