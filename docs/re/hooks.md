@@ -10,7 +10,9 @@ tools/engine.py` disassembles the hooks in the current build.
 | C0:95F9, C0:9603 | same, twin renderer (cards, ending boxes) | same | same |
 | C2:0FE6, C0:96AB | typewriter `INC $20` x2 per glyph | x1 | next letter one cell right |
 | C2:130D | `LDY $9056,x / LDX #$0698` (stage name from the WRAM copy) | `JML D0:0000` | stage names read from ROM (moved block), no 7E:9000 size limit |
-| D0:0000 | - | stage_name loop: table C0:1056, strings in the stage block's bank, back to C2:1329 | as above |
+| D0:0000 | - | stage_name loop: table C0:1056, strings in the stage block's bank, `LDX #$0690` (col 8, was $0698 = col 12), back to C2:1329 | as above; 17 cells to the heart icon |
+| 0x2B432, 0x2B472, 0x2B4B2 | HUD map words とくてん / たいりょ / エリア | SCORE / LIFE / blanks | format C labels in English, AREA dropped for the stage name |
+| 0x40D80 | BG3 tile D8 = く + health bar's left cap | the cap alone | after LIFE |
 | 0x41000 + 64N | 16x16 kana/kanji glyph N (TL, BL tiles) | Unifont ASCII glyph (code = ASCII - 0x20, N = 00-5E) | English story font; TR/BR tiles untouched, never drawn |
 
 ## Moved text blocks (text_map.layout `moves`, engine.MOVES)

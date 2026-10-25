@@ -2,8 +2,8 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 1-6 done (translation merged 2026-10-26). Next: phase 7 (insert, fit, check). Last build:
-  `build/gensan_en.sfc` sha1 89d48e5a9adad55b5f7e99777ca2602bc7c9f41b (87 strings in English), smoke ok 2026-10-26.
+- **Phase:** 1-7 done (insert, fit, check 2026-10-26). Next: phase 8 (QA in the emulator). Last build:
+  `build/gensan_en.sfc` sha1 6120fc2ca04187cb89061dcc216f81edf3e80779 (87 strings in English), smoke ok 2026-10-26.
 - **Done:**
   - Step 0: template, rulings D1-D8, ROM pin, MesenCE in `tools/mesen/`, guard hook, pre-commit check.
   - Phase 1: no earlier fan patch (the series is *Hammerin' Harry* abroad). Known text: title bubble, staff credits,
@@ -43,14 +43,20 @@ Updated at the end of every session. Keep it to what the next session needs; his
     credits/stages; ` / ` = line, ` // ` = {page}, `{gap}` = ticker pause). One translator agent, one reviewer
     (approved, 0 Critical; the one Important and the Minors applied in the same pass). All 87 text entries merged into
     `script/` (`en`); `fit.py` clean. Translator TSVs in `work/tl/` (gitignored).
+  - Phase 7: HUD stage name starts at col 8 (hook `LDX #$0690`, AREA label blanked, 17 cells): TEYANDE TOWN,
+    BERANME WOODS, GATTEN VALLEY, KUROMOKU BASE. HUD labels SCORE / LIFE (tilemap words + tile D8 redrawn as the bar
+    cap alone; `docs/re/hooks.md`); checked on 5 stage warps (`work/qa/hud/sheet.png`). New checks in
+    `tools/check.py`: `tests/test_lint.py` (layout codes only, one {end}, credit {br} layout, no Japanese in `en`,
+    untranslated only by `script/keep_jp.txt`, edge blanks, stub last lines, glossary EN + Avoid columns),
+    `tests/test_engine.py` (vacated blocks all FF, no branch into a patched code span, stale-reader sweep of long
+    operands and split LDX/LDY bank immediates; 12 triaged data hits listed). ROM-wide `jp_left.py --tbl` is pure
+    noise here (codes reused by graphics/data, story codes reused by English); no slot list: every reachable string is
+    rebuilt from script/ and the old ranges are FF (tested).
 - **Next:**
-  1. Phase 7: lint/romdiff are green already; widen the HUD stage name (drop the AREA label, D0:0005
-     `LDX #$0698` -> col 8, 13 letters) so stage names regain their place word (TEYANDE TOWN, BERANME WOODS,
-     GATTEN VALLEY, KUROMOKU HQ; now 9-letter TEYANDE/BERANME/GATTEN/KUROMOKU). Title bubble (title10E2/10EE: "If you
-     need me, press START!" / "Let's go!", vertical) is not translated yet.
-  2. Format C HUD labels (とくてん/たいりょく/エリア, tilemap 0x2B400) and the title bubble (title10E2/10EE, vertical
-     kana ASCII art) are not script text: do them with the graphics work (phase 7/8). If stage names need more room,
-     the hook can start them at col 8 by dropping the AREA label (D0:0005 `LDX #$0698`).
+  1. Phase 8: QA tour (`tools/debug/tour.py` + HUD warps) -> visual-QA subagents -> `qa_gate.py check` exit 0.
+  2. Graphics text still Japanese (D5): title logo (redraw as *Hammerin' Harry*), title bubble (title10E2/10EE,
+     vertical kana ASCII art, in `script/keep_jp.txt`: "If you need me, press START!" / "Let's go!"), menu book
+     cover (G2), continue-screen signposts, boss intro/defeat sprites (survey). Each zoomed cold-boot shot English.
   3. Graphics recompressor (`decompress(compress(x)) == x` on all 38 blocks) when the first graphic is redrawn.
 - **Open bugs:** none.
 - **Gaps (non-blocking):** no warp for a won boss fight (the stage-clear moment inside stage play): fight AI with the

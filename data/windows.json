@@ -43,8 +43,8 @@
   },
   "stage": {
     "match": ["stage"],
-    "cells": 13, "lines": 1, "upper": true, "page": false,
-    "what": "HUD stage name incl. its '1-1 ' prefix, from col 12 to the heart icon (col 25), 8x8 BG3 font",
+    "cells": 17, "lines": 1, "upper": true, "page": false,
+    "what": "HUD stage name incl. its '1-1 ' prefix, from col 8 (the hook drops the AREA label) to the heart icon (col 25), 8x8 BG3 font",
     "measured": "marker build, work/qa/marker/hud.png: the heart sprite covers col 25 on"
   }
 }

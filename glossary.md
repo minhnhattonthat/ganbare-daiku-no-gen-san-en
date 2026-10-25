@@ -37,10 +37,17 @@ Binding for every translator and reviewer. Agents propose additions in reports; 
 ## Places
 | JP | EN | max | notes | Avoid |
 |---|---|---|---|---|
-| てやんでちょう | TEYANDE | 9 | stage 1, Teyande Town (pun on てやんでい + 町); HUD has 9 cells after "1-1 " | |
-| べらんめしんりん | BERANME | 9 | stage 2, Beranme Woods (pun on べらんめえ + 森林) | |
-| が[F7]てんだに | GATTEN | 9 | stage 3, Gatten Valley (がってん "gotcha!" + 谷) | |
-| くろもくアジト | KUROMOKU | 9 | stage 4, the Kuromoku hideout | |
+| てやんでちょう | TEYANDE TOWN | 13 | stage 1 (pun on てやんでい + 町); HUD has 13 cells after "1-1 " | |
+| べらんめしんりん | BERANME WOODS | 13 | stage 2 (pun on べらんめえ + 森林) | |
+| が[F7]てんだに | GATTEN VALLEY | 13 | stage 3 (がってん "gotcha!" + 谷) | |
+| くろもくアジト | KUROMOKU BASE | 13 | stage 4, the Kuromoku hideout | |
+
+## HUD labels (tilemap, tools/engine.py)
+| JP | EN | max | notes | Avoid |
+|---|---|---|---|---|
+| とくてん | SCORE | 5 | | |
+| たいりょく | LIFE | 4 | the health bar | |
+| エリア | (dropped) | | the stage name takes its cells | |
 
 ## Items / skills / terms
 | JP | EN | max | notes | Avoid |

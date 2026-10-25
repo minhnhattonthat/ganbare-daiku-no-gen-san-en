@@ -44,6 +44,13 @@ PATCHES = [
     # C2:130D LDY $9056,x / LDX #$0698 -> JML D0:0000
     (0x2130D, bytes.fromhex("bc5690a29806"), bytes([0x5C, CODE & 0xFF, CODE >> 8 & 0xFF, 0xC0 | CODE >> 16, NOP, NOP]),
      "C2:130D stage name from ROM (JML stage_name)"),
+    # HUD labels (format C, BG3 map words at 0x2B400, word 25 of a row = col 8): とくてん -> SCORE, たいりょく -> LIFE
+    # (tile D8 = く + the bar's left cap, redrawn as the cap alone), エリア dropped: the stage name starts at col 8
+    (0x2B432, bytes.fromhex("5300470052006d000000"), bytes.fromhex("2c001c0028002b001e00"), "HUD label SCORE"),
+    (0x2B472, bytes.fromhex("4f00410067007500"), bytes.fromhex("250022001f001e00"), "HUD label LIFE"),
+    (0x2B4B2, bytes.fromhex("8300a7008000"), bytes(6), "HUD label AREA dropped"),
+    (0x40D80, bytes.fromhex("0804110c21184130215011280815000c"), bytes.fromhex("00000100010001000100010000010000"),
+     "BG3 tile D8: bar cap without く"),
 ]
 
 
@@ -54,7 +61,7 @@ def stage_name(bank):
     body = bytes.fromhex("090020" "9fc9847e" "e8e8c8")  # ORA #$2000 / STA $7E84C9,x / INX INX INY
     loop += bytes([0xF0, len(body) + 2]) + body          # BEQ done
     loop += bytes([0x80, 0x100 - len(loop) - 2])         # BRA loop
-    return (bytes.fromhex("bf5610c0" "a8" "a29806" "8b")  # LDA $C01056,x / TAY / LDX #$0698 / PHB
+    return (bytes.fromhex("bf5610c0" "a8" "a29006" "8b")  # LDA $C01056,x / TAY / LDX #$0690 (col 8) / PHB
             + bytes([0xF4, bank, bank]) + b"\xab\xab"   # PEA bank:bank / PLB / PLB
             + loop
             + bytes.fromhex("ab" "5c2913c2"))            # done: PLB / JML $C21329

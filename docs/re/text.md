@@ -59,7 +59,9 @@ string in every block moves the rest with every pointer following (a re-scan of 
 ## Format C: tilemap words (verified)
 
 - HUD layout block around file **0x2B400-0x2B4EB**: BG3 tilemap words, low byte = font code (labels とくてん,
-  たいりょく, エリア, life/score digits). Loader not traced yet (guess: copied whole to the WRAM BG3 map).
+  たいりょく, エリア, life/score digits). Loader not traced yet (guess: copied whole to the WRAM BG3 map). Word 25 of
+  each 32-word row = screen col 8 (labels at rows 0-2 = 0x2B432, 0x2B472, 0x2B4B2; tile D8 = く fused with the
+  health bar's cap). Patched in place by `tools/engine.py` (SCORE / LIFE, AREA blanked); verified on 5 stage warps.
 
 ## Format D: story font (verified)
 

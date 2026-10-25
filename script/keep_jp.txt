@@ -1,0 +1,3 @@
+# Text entries left without `en` on purpose (tests/test_lint.py): one name and its reason per line.
+title10E2 title bubble, vertical kana drawn as ASCII art in the BG3 font: replaced as graphics (phase 8)
+title10EE title bubble answer, same
