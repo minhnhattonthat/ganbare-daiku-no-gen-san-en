@@ -1,7 +1,8 @@
 # BG3 font tile codes (2bpp font at file 0x40000, 256 tiles; VRAM tile = $280 + code on the title/HUD screens).
 # Used raw by the stage-name records (file 0x1070) and as the low byte of the HUD tilemap words (file 0x2B400).
 # Read off the font and cross-checked against the format-A byte map at 0x28200 (tests/test_tables.py).
-# F0-FB hold pre-composed voiced kana; F7, FA, FB are unread (guess: っ, then the FINAL stage name's last two).
+# F0-FB hold pre-composed voiced kana and the stage names' extra cells (read off the font, work/tmp shots 2026-10-25).
+# F7 (っ) and FB (う) duplicate 76 and 42: encode picks the first, so they decode as [F7]/[FB] and still roundtrip.
 00=\s
 10=0
 11=1
@@ -171,6 +172,9 @@ B6=ッ
 F4=で
 F5=べ
 F6=が
+F7=っ
 F8=だ
 F9=ジ
+FA=ぞ
+FB=う
 FF={end}

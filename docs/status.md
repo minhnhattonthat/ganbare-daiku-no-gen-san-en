@@ -2,7 +2,8 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 1 and 2 done (story-script gap closed 2026-10-25). Next: phase 3. Last build: none yet.
+- **Phase:** 1-3 done (identity build 2026-10-25). Next: phase 4. Last build: `build/gensan_en.sfc` sha1
+  7dc58aa0fcf643092e995897dae3de7bdfd05c6e = the original (identity), smoke ok 2026-10-25.
 - **Done:**
   - Step 0: template, rulings D1-D8, ROM pin, MesenCE in `tools/mesen/`, guard hook, pre-commit check.
   - Phase 1: no earlier fan patch (the series is *Hammerin' Harry* abroad). Known text: title bubble, staff credits,
@@ -16,12 +17,19 @@ Updated at the end of every session. Keep it to what the next session needs; his
     every n frames: pages through story text and the ending).
   - Phase 1 gap: story script = format D (`docs/re/text.md`): 16x16 2bpp 160-glyph font at 0x41000, `tbl/story.tbl`,
     61 strings (book pages, dialogue panels, chapter cards, ending boxes, epilogue ticker, continue bubble) in four
-    blocks, all reached through pointer tables/immediates. `tools/story_text.py` walks them; `tests/test_story.py`
-    roundtrips and checks block coverage. `tools/lua/textlog.lua` logs each string the renderers draw.
+    blocks, all reached through pointer tables/immediates. `tools/lua/textlog.lua` logs each string the renderers draw.
+  - Phase 3: `tools/text_map.py` (replaces story_text.py) scans formats A, B, D from the code pointers (7 blocks,
+    95 strings) and re-packs them; `build.py` = identity build, romdiff-checked write log. `tests/test_text_map.py`:
+    roundtrip, block tiling, byte-identical rebuild, shortened strings move with all pointers. Found on the way: stage
+    table starts at 0x1056 (13 entries, no record header), font cells F7/FA/FB = っ/ぞ/う, menu frame string 0x2B5C9.
+    Format C (HUD tilemap) stays raw: fixed map, no pointers.
 - **Next:**
-  1. Phase 3: identity build (`build.py`, byte-identical rebuild test). Text formats to carry: A (`tbl/jp.tbl`),
-     B (stage names), C (HUD tilemap), D (`tools/story_text.py`).
-  2. Phase 4 extract into `script/`; phase 5 decides the story font (8x16 half-width vs VWF in C2:0EBF/C0:95B1).
+  1. Phase 4 extract into `script/` (JSON per block, id = `text_map.sid`, `jp` + `en`; dump never clobbers `en`),
+     build.py reads `en` over the ROM text; roundtrip test over script/.
+  2. Phase 5 decides the story font (8x16 half-width vs VWF in C2:0EBF/C0:95B1), expands to 2 MiB (boot-test the
+     new banks), and gives blocks overflow room: ptr16 lists/immediates (`short` refs) keep their bank (C2/C3) unless
+     the code's `LDY #$00C2`/bank operand is patched; stage names (block B) are boxed in by the title params.
+  3. Graphics recompressor (`decompress(compress(x)) == x` on all 38 blocks) when the first graphic is redrawn.
 - **Open bugs:** none.
 - **Gaps (non-blocking):** no warp for a won boss fight (the stage-clear moment inside stage play): fight AI with the
   cheat RAM didn't land hits; `go = {0x8053, 0}` skips straight to the clear handler instead. Boss intro/defeat

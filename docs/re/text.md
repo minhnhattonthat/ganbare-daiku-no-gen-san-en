@@ -32,7 +32,8 @@ Addresses: HiROM, file offset = CPU address & 0x3FFFFF. Dump per `rom.sha1`.
 | 0x2B4EC | title speech-bubble frame (ASCII art) | param 7E:90DC (file 0x10DC) |
 | 0x2B565 | title speech bubble, **vertical**: stored row by row across the columns, read right to left | param 7E:90E2 |
 | 0x2B5A8.. | `© 1993 IREM CORP.`, `TM`, small marks | params 7E:90E8, 7E:90EE, 7E:90F4 |
-| 0x2B890-0x2BA5B | staff credits, 17 strings, katakana roles and names | table at 0x2B846: `ptr16 (bank C2), 2 bytes` x17, FFFF end |
+| 0x2B5C9-0x2B642 | menu box frame (ASCII art) | param 7E:945E (file 0x145E) |
+| 0x2B890-0x2BA5B | staff credits, 17 strings + an empty one, katakana roles and names | table at 0x2B846: `ptr16 (bank C2), 2 bytes` x18, FFFF end; read by C2:330D `LDA $C2B846,x` |
 | 0x1113-0x11C8 | options menu (ATTACK/JUMP/SPECIAL/SOUND/BGM/EFFECT/LEVEL/EXIT): **already English** | 7E:9xxx |
 | 0x1236-0x1440 | leftover debug stage select, `STAGE n (1ST HALF) CHKn` ... `FINAL STAGE`: English, debug only | table 7E:91DE, param 7E:91D8 |
 
@@ -41,9 +42,19 @@ separate format (format D below).
 
 ## Format B: raw font codes (verified)
 
-- Stage names for the HUD, file **0x1070-0x10E7** (in the 7E:9000 copy), records `col, $39, row, 00, codes.., FF`;
-  pointer table at file 0x105A (16-bit, 7E:90xx). Eight area records (1-1 .. 4-2, the name repeated per half) plus
-  `FINAL` + name. Names: てやんで町, べらんめ森林, がってん谷, くろもくアジト (Edo-slang puns) and the final stage.
+- Stage names for the HUD, file **0x1070-0x10DB** (in the 7E:9000 copy): plain font-code strings, FF end, no header
+  (`11 39 11 00` is "1-1 "). Pointer table at file **0x1056**, 13 x 16-bit 7E:90xx: x-1, x-2, empty per area, then
+  FINAL; the empty entries point at FINAL's FF (7E:90DB). Names: てやんでちょう, べらんめしんりん, がってんだに,
+  くろもくアジト (Edo-slang puns) and ` FINAL らいぞう`. Cells F7 = っ, FA = ぞ, FB = う (`tbl/font.tbl`).
+- The block ends right where the title params start (0x10DC): longer English names need the table repointed into
+  free WRAM-copy space or a ROM-side change to the reader (phase 5).
+
+## Build: identity (verified)
+
+`tools/text_map.py` walks every format A/B/D pointer from the code that reads it (`scan`) and re-packs each block in
+the original order with all pointers rewritten (`layout`); `build.py` runs it, logs writes to `build/writes.txt` and
+checks them with romdiff. `tests/test_text_map.py`: unchanged text rebuilds the ROM byte for byte, and a shortened
+string in every block moves the rest with every pointer following (a re-scan of the result reads the same text).
 
 ## Format C: tilemap words (verified)
 
