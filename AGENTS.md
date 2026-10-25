@@ -7,6 +7,7 @@ Skill: translate-retro-game (Claude Code: plugin, enabled in .claude/settings.js
 - Check:    `python -X utf8 tools/check.py`  (tests + lint; the pre-commit hook `tools/hooks/pre-commit` runs this; a fresh clone needs `git config core.hooksPath tools/hooks`)
 - Smoke:    `python -X utf8 $SKILL/scripts/emu.py build/gensan_en.sfc --out work/qa/smoke --route tools/routes/boot.txt --smoke`
 - Warp:     `python -X utf8 $SKILL/scripts/emu.py build/gensan_en.sfc --out work/qa/warp --script tools/debug/warp.lua --var "SCENE='<name>'" --frames 2000 --sheet` (scenes: `tools/debug/scenes.lua`, live ~f1370; `--var ADV=40` pages text; never ask the user to play to a scene). All scenes + states: `python -X utf8 tools/debug/run_all.py [ROM]`
+- Marker/tour/fit: `build.py --marker`; `python -X utf8 tools/debug/tour.py [ROM]` (16 text scenes -> sheets); `python -X utf8 tools/fit.py "text" --box panel` (budgets `data/windows.json`)
 - Release:  `python -X utf8 tools/release.py` (patch + verify; never publish without the user) [phase 9]
 - Clean:    `python -X utf8 tools/clean.py` (published projects: lists rebuildable/downloadable files; `--yes` deletes)
 

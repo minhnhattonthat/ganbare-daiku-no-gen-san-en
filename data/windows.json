@@ -1,0 +1,50 @@
+{
+  "page": {
+    "match": ["page"],
+    "cells": 27, "lines": 4, "page": false,
+    "what": "book page narration under the picture, 8x16 half-width",
+    "measured": "marker build 2026-10-25, work/qa/marker/clear_3 f001680: line from x=4 reaches the screen edge at cell 29; 28 is the last whole cell, 27 keeps a margin like the left one"
+  },
+  "panel": {
+    "match": ["script"],
+    "cells": 18, "lines": 4, "page": true,
+    "what": "dialogue panel beside a portrait (top: cols 10-27, bottom: cols 3-20); {page} continues in a new panel of the same speaker",
+    "measured": "marker build, clear_3 f002040: cell 19 overwrites the panel's right border; 4 lines fill the panel"
+  },
+  "ending": {
+    "match": ["ending"],
+    "cells": 24, "lines": 3, "page": true,
+    "what": "ending dialogue box (BG3, lines 3 rows apart); {page} continues in a new box",
+    "measured": "marker build, clear_13 f002040: interior x 33-225 px = 24 cells from x=4; text past it is never cleared"
+  },
+  "ticker": {
+    "match": ["imm23285"],
+    "cells": 330, "lines": 1, "page": false,
+    "what": "epilogue ticker, one scrolling line typed at 8 frames per letter; 330 letters = the original 164 glyphs' running time",
+    "measured": "timing, not width: the scroller wraps the 64-cell map; the C2:329E cue is patched to the original moment (engine.py)"
+  },
+  "continue": {
+    "match": ["imm23B60", "imm23E7E", "imm23F1B"],
+    "cells": 28, "lines": 1, "page": false,
+    "what": "continue speech bubble and its two answers (instant / typewriter, cols 2-29)",
+    "measured": "marker build, continue f002100: cell 29 touches the bubble's right border"
+  },
+  "card": {
+    "match": ["card"],
+    "cells": 28, "lines": 1, "page": false,
+    "what": "chapter card on black before the map; English cards are centred and typed at 1 frame per letter (the screen fades on a timer)",
+    "measured": "marker build, work/qa/card: 32-cell BG3 screen, 2-cell margins"
+  },
+  "credit": {
+    "match": ["credit"],
+    "cells": 28, "lines": 3, "upper": true, "page": false,
+    "what": "staff roll: role{br}{br}name, 8x8 BG3 font (uppercase only); the build centres each entry on its longest line",
+    "measured": "marker build, clear_13 f015660: lines run to the screen edge and wrap; 32-cell screen, 2-cell margins"
+  },
+  "stage": {
+    "match": ["stage"],
+    "cells": 13, "lines": 1, "upper": true, "page": false,
+    "what": "HUD stage name incl. its '1-1 ' prefix, from col 12 to the heart icon (col 25), 8x8 BG3 font",
+    "measured": "marker build, work/qa/marker/hud.png: the heart sprite covers col 25 on"
+  }
+}

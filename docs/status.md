@@ -2,8 +2,9 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 1-4 done (extract 2026-10-25). Next: phase 5. Last build: `build/gensan_en.sfc` sha1
-  7dc58aa0fcf643092e995897dae3de7bdfd05c6e = the original (identity from script/), smoke ok 2026-10-25.
+- **Phase:** 1-5 done (engine + marker build 2026-10-25). Next: phase 6 (translate). Last build:
+  `build/gensan_en.sfc` sha1 a518a51639ac3ef6dc6ecd0760ca021efd7815a0 (2 MiB, engine on, no `en` yet), smoke ok
+  2026-10-25. Untranslated story (D) strings now draw garbage: the kana glyphs 00-5E hold the English font.
 - **Done:**
   - Step 0: template, rulings D1-D8, ROM pin, MesenCE in `tools/mesen/`, guard hook, pre-commit check.
   - Phase 1: no earlier fan patch (the series is *Hammerin' Harry* abroad). Known text: title bubble, staff credits,
@@ -26,17 +27,31 @@ Updated at the end of every session. Keep it to what the next session needs; his
   - Phase 4: `tools/script.py dump` writes `script/<block>.json` (7 files, 95 strings; 4 title frame/mark strings
     and 2 empty ones are kind `data`, never translated). build.py writes `en` where filled, else `jp`.
     `tests/test_script.py`: every ROM string once with its current text, filled `en` encodes, blank script = original
-    ROM, re-dump keeps `en`. The story font (D) has no Latin glyphs yet: `en` for D strings can't encode until phase 5.
+    ROM, re-dump keeps `en`.
+  - Phase 5: `tools/engine.py` (hooks in `docs/re/hooks.md`): 2 MiB, half-width 8x16 story font (Unifont ASCII,
+    OFL, `fonts/`, `tbl/story_en.tbl`, code = ASCII - 0x20) by NOPing the TR/BR stores of both glyph renderers,
+    stage names read from ROM by a hook at D0:0000, ticker cue C2:329E retimed. `text_map.layout` moves every block to
+    a 0x4000 slot from D0:4000 (bank bytes + second-field readers of the page/script/credit tables follow), halves
+    the typewriter delay for English, types cards at speed 1 and centres cards and credits, and `{page}` repeats a
+    panel/ending entry (same speaker, new panel). `build.py --marker` = ruler markers + torture lines + a `{page}`
+    demo; `tools/debug/tour.py` warps to the 16 text scenes and sheets them (16/16 ok on the marker build).
+    Measured budgets in `data/windows.json` (page 27x4, panel 18x4 + {page}, ending 24x3 + {page}, continue 28,
+    card 28, credit 28 uppercase, stage 13 incl. "1-1 ", ticker 330 letters); `tools/fit.py` lints them
+    (`tests/test_fit.py`), `python -X utf8 tools/fit.py "text" --box panel` is the translators' dry run.
 - **Next:**
-  1. Phase 5 decides the story font (8x16 half-width vs VWF in C2:0EBF/C0:95B1), expands to 2 MiB (boot-test the
-     new banks), and gives blocks overflow room: ptr16 lists/immediates (`short` refs) keep their bank (C2/C3) unless
-     the code's `LDY #$00C2`/bank operand is patched; stage names (block B) are boxed in by the title params.
-     Marker build: every `text` entry -> `[id] marker`, boot each box, measure widths (width gate).
-  2. Graphics recompressor (`decompress(compress(x)) == x` on all 38 blocks) when the first graphic is redrawn.
+  1. Phase 6: glossary (names: Gen-san / Genzo, Kanna-chan, Kuroki Gang, stage puns), translator/reviewer briefs with
+     the window budgets and `{page}`; dispatch batches. Credits and stage names: uppercase only (8x8 font).
+  2. Format C HUD labels (とくてん/たいりょく/エリア, tilemap 0x2B400) and the title bubble (title10E2/10EE, vertical
+     kana ASCII art) are not script text: do them with the graphics work (phase 7/8). If stage names need more room,
+     the hook can start them at col 8 by dropping the AREA label (D0:0005 `LDX #$0698`).
+  3. Graphics recompressor (`decompress(compress(x)) == x` on all 38 blocks) when the first graphic is redrawn.
 - **Open bugs:** none.
 - **Gaps (non-blocking):** no warp for a won boss fight (the stage-clear moment inside stage play): fight AI with the
   cheat RAM didn't land hits; `go = {0x8053, 0}` skips straight to the clear handler instead. Boss intro/defeat
-  sprites still to survey (`docs/re/graphics.md`). Map label/font cells F7/FA/FB not read yet.
+  sprites still to survey (`docs/re/graphics.md`). Map label/font cells F7/FA/FB not read yet. The continue screen's
+  two signposts are Japanese graphics (graphics survey). Ticker cue C2:329E: what 7E:9026 bit 0 triggers is unread
+  (only its timing is kept).
 - **Waiting on the user:** nothing. Defaults taken (non-blocking): the title logo gets redrawn in English as
-  *Hammerin' Harry* (D5: an official English name exists); the ROM expands to 2 MiB for new text/font/graphics.
+  *Hammerin' Harry* (D5: an official English name exists); the ROM expands to 2 MiB for new text/font/graphics;
+  story font = fixed 8x16 half-width with `{page}` for long panels instead of a VWF (more panels, no abbreviation).
   Unchecked: Mesen GUI keyboard input (no interactive session).

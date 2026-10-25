@@ -34,7 +34,7 @@ def test_strings_roundtrip(rom):
 @needs_rom
 def test_items_tile_blocks(rom):
     items, refs = scan(rom)
-    for lo, hi, what in BLOCKS:
+    for lo, hi, what, _ in BLOCKS:
         pos = lo
         for it in sorted(i for i in items.values() if lo <= i.off < hi):
             if it.off < pos:  # tail shared with the string before
@@ -60,7 +60,7 @@ def test_shorter_string_moves_the_rest(rom):
     items, refs = scan(rom)
     text = texts(rom, items)
     want = dict(text)
-    for lo, hi, _ in BLOCKS:
+    for lo, hi, _, _ in BLOCKS:
         first = min(i for i in items.values() if lo <= i.off < hi and i.fmt and len(text[sid(i)]) > 6
                     and text[sid(i)][0] not in "{[")
         want[sid(first)] = text[sid(first)][1:]

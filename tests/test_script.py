@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 import script  # noqa: E402
 from tbl import Table  # noqa: E402
-from text_map import ROM, TABLES, layout, scan, sid, texts  # noqa: E402
+from text_map import EN_TABLES, ROM, layout, scan, sid, texts  # noqa: E402
 
 needs_rom = pytest.mark.skipif(not ROM.is_file(), reason="no ROM dump in rom/")
 
@@ -29,7 +29,7 @@ def test_script_matches_rom(rom):
 
 
 def test_en_encodes():
-    tables = {k: Table.load(ROOT / "tbl" / v) for k, v in TABLES.items()}
+    tables = {k: Table.load(ROOT / "tbl" / v) for k, v in EN_TABLES.items()}
     for e in script.entries():
         assert e["kind"] in ("text", "data"), e["id"]
         if e["en"]:

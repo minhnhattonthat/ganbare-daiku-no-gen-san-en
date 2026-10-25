@@ -22,7 +22,7 @@ DATA = {"title10DC", "title10E8", "title10F4", "title145E"}
 
 
 def block_of(off):
-    return next(FILES[lo] for lo, hi, _ in BLOCKS if lo <= off < hi)
+    return next(FILES[lo] for lo, hi, _, _ in BLOCKS if lo <= off < hi)
 
 
 def dump(rom):

@@ -94,6 +94,10 @@ strings + tables tile each block below with no gap.
 | 0x34ACB | chapter-card table: 14 x ptr16 (bank C3), by stage 7E:ECC7, 0 = no card | C2:2AE6, C2:2CA3 |
 | 0x34AE7-0x34B87 | 10 chapter cards (prologue, 1-4 first/second half, finale) | card table |
 
+**Phase 5 (done, `docs/re/hooks.md`):** half-width 8x16 English (tbl/story_en.tbl, Unifont), every block moved to
+the 2 MiB expansion, `{page}` repeats a panel/ending entry. Measured budgets per box: `data/windows.json`, checked by
+`tools/fit.py`. The plan as it stood before:
+
 Total 2,377 bytes of strings (headers included) in four blocks; no free space beside any of them (rom.md). Insertion plan
 (phase 5): put English in the expanded banks; ptr24 tables repoint anywhere; the bank-fixed ptr16 lists and the
 `LDX/LDY` immediates need their bank operand (`LDY #$00C2`, the card code's `LDY #$00C3`, the ending list bank) patched
