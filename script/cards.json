@@ -1,0 +1,12 @@
+[
+{"id": "D34AE7", "name": "card0", "kind": "text", "jp": "序章 また黒木組だ‼{end}", "en": ""},
+{"id": "D34AF6", "name": "card1", "kind": "text", "jp": "１章前編 町を守れ‼{end}", "en": ""},
+{"id": "D34B05", "name": "card2", "kind": "text", "jp": "１章後編 走れ、源さん‼{end}", "en": ""},
+{"id": "D34B16", "name": "card4", "kind": "text", "jp": "２章前編 森があぶない！{end}", "en": ""},
+{"id": "D34B27", "name": "card5", "kind": "text", "jp": "２章後編 やつらの目的！{end}", "en": ""},
+{"id": "D34B38", "name": "card7", "kind": "text", "jp": "３章前編 走れ‼走れ‼{end}", "en": ""},
+{"id": "D34B48", "name": "card8", "kind": "text", "jp": "３章後編 来い！勝負だ‼{end}", "en": ""},
+{"id": "D34B59", "name": "card10", "kind": "text", "jp": "４章前編 時をこえて！{end}", "en": ""},
+{"id": "D34B69", "name": "card11", "kind": "text", "jp": "４章後編 未来の戦い！{end}", "en": ""},
+{"id": "D34B79", "name": "card13", "kind": "text", "jp": "終章 改心しやがれ‼{end}", "en": ""}
+]

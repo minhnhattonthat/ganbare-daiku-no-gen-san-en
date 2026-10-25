@@ -1,0 +1,20 @@
+[
+{"id": "A2B890", "name": "credit0", "kind": "text", "jp": "{kana}ｹﾞｰﾑﾃﾞｻﾞｲﾝ{kana}{br}{br}ﾐｶﾐ ﾋﾛﾋｻ{end}", "en": ""},
+{"id": "A2B8A7", "name": "credit1", "kind": "text", "jp": "{kana}ﾌﾟﾚｲﾔｰ&ﾎﾞｽﾃﾞｻﾞｲﾝ{kana}{br}{br}  ﾀﾅﾍﾞ ﾄﾓﾋｺ{end}", "en": ""},
+{"id": "A2B8C7", "name": "credit2", "kind": "text", "jp": "{kana}ﾎﾞｽ ﾃﾞｻﾞｲﾝ{kana}{br}{br}ｶｻﾞｶﾐ ｼｭﾝ{end}", "en": ""},
+{"id": "A2B8DF", "name": "credit3", "kind": "text", "jp": "{kana}ﾊﾞｯｸ ﾃﾞｻﾞｲﾝ{kana}{br}{br}ﾌﾅﾄ ﾏｻﾋﾛ{end}", "en": ""},
+{"id": "A2B8F7", "name": "credit4", "kind": "text", "jp": "ﾃｷ {kana}ﾃﾞｻﾞｲﾝ{kana}{br}{br}ｱﾗｷ ｶｵﾙ{end}", "en": ""},
+{"id": "A2B90C", "name": "credit5", "kind": "text", "jp": "ﾃｷ {kana}ﾃﾞｻﾞｲﾝ{kana}{br}{br}ｻｶﾓﾄ ｱｹﾐ{end}", "en": ""},
+{"id": "A2B922", "name": "credit6", "kind": "text", "jp": "{kana}ｵｰﾌﾟﾆﾝｸﾞ ﾃﾞｻﾞｲﾝ{kana}{br}{br} ﾀﾅｶ ｶｽﾞﾋﾛ{end}", "en": ""},
+{"id": "A2B940", "name": "credit7", "kind": "text", "jp": "{kana}ｻｳﾝﾄﾞﾃﾞｻﾞｲﾝ{kana}{br}{br}ﾋﾗｼﾏ ﾘｹｲ{end}", "en": ""},
+{"id": "A2B958", "name": "credit8", "kind": "text", "jp": "{kana}ﾌﾟﾚｲﾔｰ&ｼｽﾃﾑﾌﾟﾛｸﾞﾗﾐﾝｸﾞ{kana}{br}{br}     ﾋﾗｲ ﾀｹｼ{end}", "en": ""},
+{"id": "A2B97E", "name": "credit9", "kind": "text", "jp": "{kana}ｷｬﾗｸﾀｰﾌﾟﾛｸﾞﾗﾐﾝｸﾞ{kana}{br}{br}   ｻｶﾀ ﾂﾄﾑ{end}", "en": ""},
+{"id": "A2B99D", "name": "credit10", "kind": "text", "jp": "{kana}ｷｬﾗｸﾀｰﾌﾟﾛｸﾞﾗﾐﾝｸﾞ{kana}{br}{br}   ｼｹﾞﾉ ﾀﾀﾞｼ{end}", "en": ""},
+{"id": "A2B9BE", "name": "credit11", "kind": "text", "jp": "{kana}ｻｳﾝﾄﾞﾌﾟﾛｸﾞﾗﾐﾝｸﾞ{kana}{br}{br} ｺﾊﾞﾔｼ ﾄｼﾋﾛ{end}", "en": ""},
+{"id": "A2B9DD", "name": "credit12", "kind": "text", "jp": "{kana}ﾂｰﾙﾌﾟﾛｸﾞﾗﾐﾝｸﾞ{kana}{br}{br}ｷﾀﾊﾞﾔｼ ｷﾖｼ{end}", "en": ""},
+{"id": "A2B9F9", "name": "credit13", "kind": "text", "jp": "{kana}ﾂｰﾙﾌﾟﾛｸﾞﾗﾐﾝｸﾞ{kana}{br}{br} ｶﾄｳ ﾕｳｲﾁ{end}", "en": ""},
+{"id": "A2BA14", "name": "credit14", "kind": "text", "jp": "{kana}ｽﾍﾟｼｬﾙｻﾝｸｽ{br}{br}ｺﾝｼｭｰﾏｽﾀｯﾌ{end}", "en": ""},
+{"id": "A2BA2C", "name": "credit15", "kind": "text", "jp": "{kana}ｽﾍﾟｼｬﾙｻﾝｸｽ{br}{br}ｱｰｹｰﾄﾞｽﾀｯﾌ{end}", "en": ""},
+{"id": "A2BA44", "name": "credit16", "kind": "text", "jp": "{kana}ｽﾍﾟｼｬﾙｻﾝｸｽ{br}{br}ｱﾒﾘｶﾝｽﾀｯﾌ{end}", "en": ""},
+{"id": "A2BA5B", "name": "credit17", "kind": "data", "jp": "{end}", "en": ""}
+]

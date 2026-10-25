@@ -2,8 +2,8 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 1-3 done (identity build 2026-10-25). Next: phase 4. Last build: `build/gensan_en.sfc` sha1
-  7dc58aa0fcf643092e995897dae3de7bdfd05c6e = the original (identity), smoke ok 2026-10-25.
+- **Phase:** 1-4 done (extract 2026-10-25). Next: phase 5. Last build: `build/gensan_en.sfc` sha1
+  7dc58aa0fcf643092e995897dae3de7bdfd05c6e = the original (identity from script/), smoke ok 2026-10-25.
 - **Done:**
   - Step 0: template, rulings D1-D8, ROM pin, MesenCE in `tools/mesen/`, guard hook, pre-commit check.
   - Phase 1: no earlier fan patch (the series is *Hammerin' Harry* abroad). Known text: title bubble, staff credits,
@@ -23,13 +23,16 @@ Updated at the end of every session. Keep it to what the next session needs; his
     roundtrip, block tiling, byte-identical rebuild, shortened strings move with all pointers. Found on the way: stage
     table starts at 0x1056 (13 entries, no record header), font cells F7/FA/FB = っ/ぞ/う, menu frame string 0x2B5C9.
     Format C (HUD tilemap) stays raw: fixed map, no pointers.
+  - Phase 4: `tools/script.py dump` writes `script/<block>.json` (7 files, 95 strings; 4 title frame/mark strings
+    and 2 empty ones are kind `data`, never translated). build.py writes `en` where filled, else `jp`.
+    `tests/test_script.py`: every ROM string once with its current text, filled `en` encodes, blank script = original
+    ROM, re-dump keeps `en`. The story font (D) has no Latin glyphs yet: `en` for D strings can't encode until phase 5.
 - **Next:**
-  1. Phase 4 extract into `script/` (JSON per block, id = `text_map.sid`, `jp` + `en`; dump never clobbers `en`),
-     build.py reads `en` over the ROM text; roundtrip test over script/.
-  2. Phase 5 decides the story font (8x16 half-width vs VWF in C2:0EBF/C0:95B1), expands to 2 MiB (boot-test the
+  1. Phase 5 decides the story font (8x16 half-width vs VWF in C2:0EBF/C0:95B1), expands to 2 MiB (boot-test the
      new banks), and gives blocks overflow room: ptr16 lists/immediates (`short` refs) keep their bank (C2/C3) unless
      the code's `LDY #$00C2`/bank operand is patched; stage names (block B) are boxed in by the title params.
-  3. Graphics recompressor (`decompress(compress(x)) == x` on all 38 blocks) when the first graphic is redrawn.
+     Marker build: every `text` entry -> `[id] marker`, boot each box, measure widths (width gate).
+  2. Graphics recompressor (`decompress(compress(x)) == x` on all 38 blocks) when the first graphic is redrawn.
 - **Open bugs:** none.
 - **Gaps (non-blocking):** no warp for a won boss fight (the stage-clear moment inside stage play): fight AI with the
   cheat RAM didn't land hits; `go = {0x8053, 0}` skips straight to the clear handler instead. Boss intro/defeat

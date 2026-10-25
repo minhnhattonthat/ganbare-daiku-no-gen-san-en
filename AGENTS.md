@@ -12,7 +12,7 @@ Skill: translate-retro-game (Claude Code: plugin, enabled in .claude/settings.js
 
 ## Paths
 - Original ROM: `rom/Ganbare! Daiku no Gen-san (Japan).sfc` (1 MiB, no header; gitignored; SHA-1 in `rom.sha1`, checked by `tools/check_rom.py`). Emulator: this repo's own copy in `tools/mesen/` (MesenCE 2.2.1, https://github.com/nesdev-org/MesenCE/releases/download/2.2.1/Mesen_2.2.1_Windows.zip, via `fetch_emu.py mesen`; gitignored; settings in `tools/emu-config/`). Savestates: `work/states/`.
-- Text: `script/` (format TBD in phase 4). Tables: `tbl/jp.tbl` (text bytes), `tbl/font.tbl` (BG3 glyph codes), `tbl/story.tbl` (story script). Every string + pointer: `tools/text_map.py` (`scan`/`layout`, used by build.py). Graphics RLE: `tools/gfxcomp.py`, block list `tools/gfx_blocks.py`. Glossary: `glossary.md`. RE notes index: `docs/re/README.md`. Fonts and their licences: `docs/fonts.md`.
+- Text: `script/<block>.json` (`id`, `name`, `kind` text|data, `jp`, `en`; "" = untranslated; `python -X utf8 tools/script.py dump` refreshes `jp`, keeps `en`). Tables: `tbl/jp.tbl` (text bytes), `tbl/font.tbl` (BG3 glyph codes), `tbl/story.tbl` (story script). Every string + pointer: `tools/text_map.py` (`scan`/`layout`, used by build.py). Graphics RLE: `tools/gfxcomp.py`, block list `tools/gfx_blocks.py`. Glossary: `glossary.md`. RE notes index: `docs/re/README.md`. Fonts and their licences: `docs/fonts.md`.
 - Copied from the skill so the build runs without it: `tools/tbl.py`, `tools/bps.py`, `tools/romdiff.py`.
 
 ## Rulings
