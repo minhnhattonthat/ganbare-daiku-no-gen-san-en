@@ -43,7 +43,7 @@ def dump(rom):
         if lost:
             raise SystemExit(f"script/{name}.json: translated ids no longer in the ROM: {lost}")
         (DIR / f"{name}.json").write_text(
-            "[\n" + ",\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n]\n", encoding="utf-8")
+            "[\n" + ",\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n]\n", encoding="utf-8", newline="\n")
         print(f"script/{name}.json: {len(rows)} strings, {sum(bool(r['en']) for r in rows)} translated")
 
 
