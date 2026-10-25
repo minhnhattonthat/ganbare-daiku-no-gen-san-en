@@ -1,0 +1,18 @@
+{
+  "_note": "speaker per script entry for translator batches (tools/batches.py); read off the content and the panel position (header x/y); '?' = a guess",
+  "page0": "the Boss (taunting letter/speech)",
+  "page1": "narrator", "page2": "narrator", "page3": "narrator", "page4": "narrator",
+  "script0.0": "Gen-san", "script0.1": "Gen's co-worker (rough male)", "script0.2": "Gen-san", "script0.3": "Gen's co-worker",
+  "script2.0": "Kuromoku thug (Kansai dialect)", "script2.1": "Gen-san", "script2.2": "Kuromoku thug (Kansai)", "script2.3": "Gen-san",
+  "script3.0": "Gen-san", "script3.1": "Gen's co-worker", "script3.2": "Gen-san",
+  "script4.0": "Kuromoku woman carpenter", "script4.1": "Gen-san", "script4.2": "Kuromoku woman carpenter", "script4.3": "Gen-san",
+  "script5.0": "Gen-san", "script5.1": "Kanna-chan", "script5.2": "Gen-san", "script5.3": "townsperson ally (polite, young?)",
+  "script6.0": "old rival (Kuromoku)", "script6.1": "Gen-san", "script6.2": "old rival", "script6.3": "Gen-san",
+  "script7.0": "Gen-san", "script7.1": "Gen-san (thinking, hesitating)?", "script7.2": "Gen-san", "script7.3": "old man ally (washi)",
+  "script8.0": "the Boss", "script8.1": "Gen-san", "script8.2": "the Boss", "script8.3": "Gen-san",
+  "script9.0": "future villain (polite, condescending)", "script9.1": "Gen-san", "script9.2": "final opponent (Raizo?)", "script9.3": "Gen-san",
+  "ending0.0": "Gen-san", "ending0.1": "the Boss", "ending0.2": "Kuromoku member (old rival?)", "ending0.3": "Gen-san",
+  "ending1.0": "Gen-san", "ending1.1": "Kanna-chan", "ending1.2": "Gen-san",
+  "imm23285": "narrator (epilogue ticker)",
+  "imm23B60": "Kanna-chan (continue? prompt)", "imm23E7E": "Kanna-chan (player chose yes)", "imm23F1B": "Kanna-chan (player chose no)"
+}

@@ -1,12 +1,12 @@
 [
-{"id": "B01070", "name": "stage0", "kind": "text", "jp": "1-1 てやんでちょう{end}", "en": ""},
-{"id": "B0107C", "name": "stage1", "kind": "text", "jp": "1-2 てやんでちょう{end}", "en": ""},
-{"id": "B01088", "name": "stage3", "kind": "text", "jp": "2-1 べらんめしんりん{end}", "en": ""},
-{"id": "B01095", "name": "stage4", "kind": "text", "jp": "2-2 べらんめしんりん{end}", "en": ""},
-{"id": "B010A2", "name": "stage6", "kind": "text", "jp": "3-1 が[F7]てんだに{end}", "en": ""},
-{"id": "B010AD", "name": "stage7", "kind": "text", "jp": "3-2 が[F7]てんだに{end}", "en": ""},
-{"id": "B010B8", "name": "stage9", "kind": "text", "jp": "4-1 くろもくアジト{end}", "en": ""},
-{"id": "B010C4", "name": "stage10", "kind": "text", "jp": "4-2 くろもくアジト{end}", "en": ""},
-{"id": "B010D0", "name": "stage12", "kind": "text", "jp": " FINAL らいぞ[FB]{end}", "en": ""},
+{"id": "B01070", "name": "stage0", "kind": "text", "jp": "1-1 てやんでちょう{end}", "en": "1-1 TEYANDE{end}"},
+{"id": "B0107C", "name": "stage1", "kind": "text", "jp": "1-2 てやんでちょう{end}", "en": "1-2 TEYANDE{end}"},
+{"id": "B01088", "name": "stage3", "kind": "text", "jp": "2-1 べらんめしんりん{end}", "en": "2-1 BERANME{end}"},
+{"id": "B01095", "name": "stage4", "kind": "text", "jp": "2-2 べらんめしんりん{end}", "en": "2-2 BERANME{end}"},
+{"id": "B010A2", "name": "stage6", "kind": "text", "jp": "3-1 が[F7]てんだに{end}", "en": "3-1 GATTEN{end}"},
+{"id": "B010AD", "name": "stage7", "kind": "text", "jp": "3-2 が[F7]てんだに{end}", "en": "3-2 GATTEN{end}"},
+{"id": "B010B8", "name": "stage9", "kind": "text", "jp": "4-1 くろもくアジト{end}", "en": "4-1 KUROMOKU{end}"},
+{"id": "B010C4", "name": "stage10", "kind": "text", "jp": "4-2 くろもくアジト{end}", "en": "4-2 KUROMOKU{end}"},
+{"id": "B010D0", "name": "stage12", "kind": "text", "jp": " FINAL らいぞ[FB]{end}", "en": " FINAL RAIZO{end}"},
 {"id": "B010DB", "name": "stage2", "kind": "data", "jp": "{end}", "en": ""}
 ]

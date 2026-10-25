@@ -1,10 +1,10 @@
 [
-{"id": "D2B67F", "name": "ending0.0", "kind": "text", "jp": "てやんでい！{nl}{half}１度ならず２度までも、{nl}{half}こりないやつめ！{end}", "en": ""},
-{"id": "D2B6A1", "name": "ending0.1", "kind": "text", "jp": "ゆ、ゆるしてくれー。{nl}{half}わしたちがわるかった！{nl}{half}もうしない！本当だ！{end}", "en": ""},
-{"id": "D2B6C9", "name": "ending0.2", "kind": "text", "jp": "オレも、もうしない！{nl}{half}あんたにはかなわない。{nl}{half}これからまじめになる。{end}", "en": ""},
-{"id": "D2B6F2", "name": "ending0.3", "kind": "text", "jp": "本当だな！ 改心するんだ{nl}{half}ぞ。カンナちゃんは、かえ{nl}{half}してもらうからな！{end}", "en": ""},
-{"id": "D2B71C", "name": "ending1.0", "kind": "text", "jp": "だいじょうぶかい？{nl}{half}あいつらも改心したし、{nl}{half}何もしないと思うよ！{end}", "en": ""},
-{"id": "D2B743", "name": "ending1.1", "kind": "text", "jp": "ありがとう、源さん！{nl}{half}こんな所につれてこられて{nl}{half}私こわかったわ！{end}", "en": ""},
-{"id": "D2B76A", "name": "ending1.2", "kind": "text", "jp": "さあ、いつまでもこんな{nl}{half}時代にいないで、早く{nl}{half}みんなの所にもどろう！{end}", "en": ""},
-{"id": "D2B793", "name": "imm23285", "kind": "text", "jp": "黒木組を改心させて、みんなの所にもどる２人。未来へ行ったり、いろいろ大変だったけど、これで町も平和になるだろう！ ありがとう‼源さん！                                あっ‼改心した黒木組のやつらも、町にもどってまじめになるようだぞ！                                {end}", "en": ""}
+{"id": "D2B67F", "name": "ending0.0", "kind": "text", "jp": "てやんでい！{nl}{half}１度ならず２度までも、{nl}{half}こりないやつめ！{end}", "en": "Teyandei!{nl}{half}Not once, but twice!{nl}{half}You never learn!{end}"},
+{"id": "D2B6A1", "name": "ending0.1", "kind": "text", "jp": "ゆ、ゆるしてくれー。{nl}{half}わしたちがわるかった！{nl}{half}もうしない！本当だ！{end}", "en": "P-please forgive us!{nl}{half}We were wrong!{nl}{half}Never again! Honest!{end}"},
+{"id": "D2B6C9", "name": "ending0.2", "kind": "text", "jp": "オレも、もうしない！{nl}{half}あんたにはかなわない。{nl}{half}これからまじめになる。{end}", "en": "Me neither! Never again!{nl}{half}You're too much for me.{nl}{half}I'll go straight now.{end}"},
+{"id": "D2B6F2", "name": "ending0.3", "kind": "text", "jp": "本当だな！ 改心するんだ{nl}{half}ぞ。カンナちゃんは、かえ{nl}{half}してもらうからな！{end}", "en": "You mean it? Then{nl}{half}reform! And I'm taking{nl}{half}Kanna-chan back!{end}"},
+{"id": "D2B71C", "name": "ending1.0", "kind": "text", "jp": "だいじょうぶかい？{nl}{half}あいつらも改心したし、{nl}{half}何もしないと思うよ！{end}", "en": "You okay? They reformed,{nl}{half}so I don't think they'll{nl}{half}try anything!{end}"},
+{"id": "D2B743", "name": "ending1.1", "kind": "text", "jp": "ありがとう、源さん！{nl}{half}こんな所につれてこられて{nl}{half}私こわかったわ！{end}", "en": "Thank you, Gen-san!{nl}{half}Dragged to a place like{nl}{half}this... I was so scared!{end}"},
+{"id": "D2B76A", "name": "ending1.2", "kind": "text", "jp": "さあ、いつまでもこんな{nl}{half}時代にいないで、早く{nl}{half}みんなの所にもどろう！{end}", "en": "Come on, no lingering{nl}{half}in this era! Let's hurry{nl}{half}back to everyone!{end}"},
+{"id": "D2B793", "name": "imm23285", "kind": "text", "jp": "黒木組を改心させて、みんなの所にもどる２人。未来へ行ったり、いろいろ大変だったけど、これで町も平和になるだろう！ ありがとう‼源さん！                                あっ‼改心した黒木組のやつらも、町にもどってまじめになるようだぞ！                                {end}", "en": "Having reformed the Kuromoku Gang, the two head back to everyone. The trip to the future and all was a real ordeal, but now the town should be at peace! Thank you, Gen-san!!                                Oh!! Looks like the reformed Kuromoku Gang are going back to town to work honestly, too!                                {end}"}
 ]

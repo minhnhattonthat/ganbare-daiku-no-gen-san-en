@@ -42,9 +42,13 @@ def dump(rom):
         lost = [i for i, e in old.items() if e["en"] and i not in {r["id"] for r in rows}]
         if lost:
             raise SystemExit(f"script/{name}.json: translated ids no longer in the ROM: {lost}")
-        (DIR / f"{name}.json").write_text(
-            "[\n" + ",\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n]\n", encoding="utf-8", newline="\n")
+        write(name, rows)
         print(f"script/{name}.json: {len(rows)} strings, {sum(bool(r['en']) for r in rows)} translated")
+
+
+def write(name, rows):
+    (DIR / f"{name}.json").write_text(
+        "[\n" + ",\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n]\n", encoding="utf-8", newline="\n")
 
 
 def read(name):

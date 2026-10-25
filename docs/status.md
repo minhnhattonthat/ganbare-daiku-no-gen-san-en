@@ -2,9 +2,8 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 1-5 done (engine + marker build 2026-10-25). Next: phase 6 (translate). Last build:
-  `build/gensan_en.sfc` sha1 a518a51639ac3ef6dc6ecd0760ca021efd7815a0 (2 MiB, engine on, no `en` yet), smoke ok
-  2026-10-25. Untranslated story (D) strings now draw garbage: the kana glyphs 00-5E hold the English font.
+- **Phase:** 1-6 done (translation merged 2026-10-26). Next: phase 7 (insert, fit, check). Last build:
+  `build/gensan_en.sfc` sha1 89d48e5a9adad55b5f7e99777ca2602bc7c9f41b (87 strings in English), smoke ok 2026-10-26.
 - **Done:**
   - Step 0: template, rulings D1-D8, ROM pin, MesenCE in `tools/mesen/`, guard hook, pre-commit check.
   - Phase 1: no earlier fan patch (the series is *Hammerin' Harry* abroad). Known text: title bubble, staff credits,
@@ -38,9 +37,17 @@ Updated at the end of every session. Keep it to what the next session needs; his
     Measured budgets in `data/windows.json` (page 27x4, panel 18x4 + {page}, ending 24x3 + {page}, continue 28,
     card 28, credit 28 uppercase, stage 13 incl. "1-1 ", ticker 330 letters); `tools/fit.py` lints them
     (`tests/test_fit.py`), `python -X utf8 tools/fit.py "text" --box panel` is the translators' dry run.
+  - Phase 6: `glossary.md` (Gen-san / Genzo-kun, Kanna-chan, Kuromoku Gang (黒木組 read くろもく, per the stage name),
+    the Boss), `docs/synopsis.md`, `data/speakers.json`, `docs/translator-brief.md`, `docs/reviewer-brief.md`.
+    `tools/batches.py split|check|pairs|merge` (b001 story pages + panels, b002 cards/ending/ticker/continue, b003
+    credits/stages; ` / ` = line, ` // ` = {page}, `{gap}` = ticker pause). One translator agent, one reviewer
+    (approved, 0 Critical; the one Important and the Minors applied in the same pass). All 87 text entries merged into
+    `script/` (`en`); `fit.py` clean. Translator TSVs in `work/tl/` (gitignored).
 - **Next:**
-  1. Phase 6: glossary (names: Gen-san / Genzo, Kanna-chan, Kuroki Gang, stage puns), translator/reviewer briefs with
-     the window budgets and `{page}`; dispatch batches. Credits and stage names: uppercase only (8x8 font).
+  1. Phase 7: lint/romdiff are green already; widen the HUD stage name (drop the AREA label, D0:0005
+     `LDX #$0698` -> col 8, 13 letters) so stage names regain their place word (TEYANDE TOWN, BERANME WOODS,
+     GATTEN VALLEY, KUROMOKU HQ; now 9-letter TEYANDE/BERANME/GATTEN/KUROMOKU). Title bubble (title10E2/10EE: "If you
+     need me, press START!" / "Let's go!", vertical) is not translated yet.
   2. Format C HUD labels (とくてん/たいりょく/エリア, tilemap 0x2B400) and the title bubble (title10E2/10EE, vertical
      kana ASCII art) are not script text: do them with the graphics work (phase 7/8). If stage names need more room,
      the hook can start them at col 8 by dropping the AREA label (D0:0005 `LDX #$0698`).

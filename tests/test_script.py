@@ -35,7 +35,8 @@ def test_en_encodes():
         if e["en"]:
             assert e["en"].endswith("{end}"), f"{e['id']}: en must end in {{end}}"
             t = tables[e["id"][0]]
-            assert t.decode(t.encode(e["en"]))[0] == e["en"], f"{e['id']}: en has characters the table lacks"
+            en = e["en"].replace("{page}", "{nl}")  # {page} is split off by text_map.layout, not a table code
+            assert t.decode(t.encode(en))[0] == en, f"{e['id']}: en has characters the table lacks"
 
 
 @needs_rom
