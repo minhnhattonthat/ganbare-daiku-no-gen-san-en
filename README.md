@@ -1,7 +1,7 @@
-# <Game title> English translation
+# Ganbare! Daiku no Gen-san English translation
 
-Unofficial English fan translation of **<Game title>** (<platform>, <publisher>, <year>): the source text and tools
-that build the patch.
+Unofficial English fan translation of **Ganbare! Daiku no Gen-san** (Super Famicom, Irem, 1993; known abroad as the
+*Hammerin' Harry* series): the source text and tools that build the patch.
 
 **Just want to play?** Download the patch from [Releases](../../releases) and follow its README. This repository holds
 no game data you can play; you need your own dump of the Japanese game.
@@ -28,11 +28,12 @@ helps most.
 Needs Python 3.12+ and your own dump of the Japanese game.
 
 ```sh
-git clone https://github.com/minhnhattonthat/<repo>
-cd <repo>
-# copy your dump to: rom/<file>
-#   (<size> bytes, SHA-1 <sha1>; the build refuses any other dump, see rom.sha1)
-python -X utf8 tools/build.py                          # -> build/<game>_en.<ext>
+git clone https://github.com/minhnhattonthat/ganbare-daiku-no-gen-san-en
+cd ganbare-daiku-no-gen-san-en
+git config core.hooksPath tools/hooks                  # pre-commit runs tools/check.py
+# copy your dump to: rom/Ganbare! Daiku no Gen-san (Japan).sfc
+#   (1048576 bytes, no header, SHA-1 7dc58aa0fcf643092e995897dae3de7bdfd05c6e; the build refuses any other dump, see rom.sha1)
+python -X utf8 build.py                                # -> build/gensan_en.sfc
 python -X utf8 tools/check.py                          # tests + text lint
 ```
 
@@ -44,8 +45,8 @@ If you enjoy this translation, you can support my work on Ko-fi:
 
 ## Licence
 
-Tools and English translation: MIT. The original Japanese text in `script/` is <publisher>'s and is included only so
-the translation can be checked against it. <Game title> is (c) <publisher>; this project is not affiliated with them.
+Tools and English translation: MIT. The original Japanese text in `script/` is Irem's and is included only so
+the translation can be checked against it. Ganbare! Daiku no Gen-san is (c) Irem; this project is not affiliated with them.
 Do not share patched ROMs.
 
 The translation was made with extensive AI assistance (Claude by Anthropic). Corrections are very welcome.

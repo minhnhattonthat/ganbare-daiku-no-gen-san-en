@@ -9,6 +9,8 @@ tools/*/
 !tools/routes/
 !tools/debug/
 !tools/lua/
+!tools/hooks/
+!tools/emu-config/
 *.sfc
 *.smc
 *.gba
