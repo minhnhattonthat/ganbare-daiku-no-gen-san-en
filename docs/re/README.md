@@ -12,4 +12,6 @@ Addresses are for the dump in `rom.sha1` unless a note says otherwise.
 
 | File | Covers | State |
 |---|---|---|
-| <text.md> | <encoding, control codes, pointer tables> | <verified / partly guessed> |
+| [text.md](text.md) | font, format A strings (JIS X 0201 via C0:9411), stage names, HUD tilemap, every text location | verified (font F7/FA/FB unread) |
+| [rom.md](rom.md) | header, free space (none), 7E:9000 WRAM copy, RLE compression, debug-menu flags | verified (debug flags not run yet) |
+| [graphics.md](graphics.md) | graphics-text survey | partial: mid-game screens wait for the phase-2 warp tool |
