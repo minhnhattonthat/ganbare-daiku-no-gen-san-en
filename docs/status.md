@@ -2,8 +2,9 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 1-7 done (insert, fit, check 2026-10-26). Next: phase 8 (QA in the emulator). Last build:
-  `build/gensan_en.sfc` sha1 6120fc2ca04187cb89061dcc216f81edf3e80779 (87 strings in English), smoke ok 2026-10-26.
+- **Phase:** 1-7 done; phase 8 (QA in the emulator) in progress 2026-10-26: graphics text done, tour + visual-QA
+  gate running. Last build: `build/gensan_en.sfc` sha1 06c225fcea4316a6fbaa1ef3785fc643fef6f108 (89 strings in
+  English, title/book/continue/back-cover graphics in English).
 - **Done:**
   - Step 0: template, rulings D1-D8, ROM pin, MesenCE in `tools/mesen/`, guard hook, pre-commit check.
   - Phase 1: no earlier fan patch (the series is *Hammerin' Harry* abroad). Known text: title bubble, staff credits,
@@ -52,17 +53,21 @@ Updated at the end of every session. Keep it to what the next session needs; his
     operands and split LDX/LDY bank immediates; 12 triaged data hits listed). ROM-wide `jp_left.py --tbl` is pure
     noise here (codes reused by graphics/data, story codes reused by English); no slot list: every reachable string is
     rebuilt from script/ and the old ranges are FF (tested).
+  - Phase 8 (so far): `tools/gfx.py` (build.py applies it): metatile screens re-rendered from the ROM, redrawn,
+    re-encoded as raw type-14 blocks in bank D8 with the loader's LDX/LDY repointed (no recompressor needed):
+    G1 title board HAMMERIN' / HARRY (Lilita One, OFL, carved style), G2 book plaque on the closed and lifting cover
+    (3x7 pixel font), G3 back cover ©IREM (flat + closing frame), G6 continue signs YEAH! / NOPE. Title bubble is BG3
+    text (`bubble` box, 6 cells: the answer only clears cols 4-9; answer x param 6 -> 4 in engine.py).
+    `tests/test_gfx.py`: re-rendering the new blocks gives the drawn images; the title's forest layer is untouched.
+    `tools/debug/tour.py` now also covers every stage half, boss and the back cover; `docs/visual-qa-brief.md`.
 - **Next:**
-  1. Phase 8: QA tour (`tools/debug/tour.py` + HUD warps) -> visual-QA subagents -> `qa_gate.py check` exit 0.
-  2. Graphics text still Japanese (D5): title logo (redraw as *Hammerin' Harry*), title bubble (title10E2/10EE,
-     vertical kana ASCII art, in `script/keep_jp.txt`: "If you need me, press START!" / "Let's go!"), menu book
-     cover (G2), continue-screen signposts, boss intro/defeat sprites (survey). Each zoomed cold-boot shot English.
-  3. Graphics recompressor (`decompress(compress(x)) == x` on all 38 blocks) when the first graphic is redrawn.
+  1. Phase 8: tour (`tools/debug/tour.py`, + `tour_jp`) -> `qa_gate.py init/todo` -> visual-qa subagents ->
+     fix issues -> `qa_gate.py check` exit 0. Then phase 9 (release).
 - **Open bugs:** none.
 - **Gaps (non-blocking):** no warp for a won boss fight (the stage-clear moment inside stage play): fight AI with the
   cheat RAM didn't land hits; `go = {0x8053, 0}` skips straight to the clear handler instead. Boss intro/defeat
-  sprites still to survey (`docs/re/graphics.md`). Map label/font cells F7/FA/FB not read yet. The continue screen's
-  two signposts are Japanese graphics (graphics survey). Ticker cue C2:329E: what 7E:9026 bit 0 triggers is unread
+  sprites: no lettering seen in stage-1 sprite VRAM (only GAME OVER, English); the tour's boss warps are the check.
+  Map label/font cells F7/FA/FB not read yet. Ticker cue C2:329E: what 7E:9026 bit 0 triggers is unread
   (only its timing is kept).
 - **Waiting on the user:** nothing. Defaults taken (non-blocking): the title logo gets redrawn in English as
   *Hammerin' Harry* (D5: an official English name exists); the ROM expands to 2 MiB for new text/font/graphics;

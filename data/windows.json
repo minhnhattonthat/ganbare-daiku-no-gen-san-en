@@ -25,8 +25,8 @@
   },
   "ticker": {
     "match": ["imm23285"],
-    "cells": 330, "lines": 1, "page": false,
-    "what": "epilogue ticker, one scrolling line typed at 8 frames per letter; 330 letters = the original 164 glyphs' running time",
+    "cells": 362, "lines": 1, "page": false,
+    "what": "epilogue ticker, one scrolling line typed at 8 frames per letter; ~330 letters = the original 164 glyphs' running time, +32: the line must end in 64 blanks (one per cell, the original's 32 were 2 cells each) or its tail stays in the 64-cell map under the credits",
     "measured": "timing, not width: the scroller wraps the 64-cell map; the C2:329E cue is patched to the original moment (engine.py)"
   },
   "continue": {

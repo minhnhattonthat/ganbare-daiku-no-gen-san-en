@@ -39,6 +39,12 @@ Standing non-bugs, `ok`:
   long panels continue in a second panel of the same speaker.
 - The epilogue ticker scrolls one long line along the bottom of the night-city scene; a sentence cut at either
   screen edge is the scroll.
+- The yellow `STAGE n (1ST HALF) CHKn` line right after a warp is the leftover debug stage select (English in
+  the original too), even when its number differs from the stage reached.
+- Boss fights: a third HUD row BOSS with a green bar. Beating an enemy or losing a life pops up a flaming
+  TEYANDEI! (Gen-san's catchphrase).
+- Staff roll: cards scroll in from the right while the old one scrolls out left, as in the original. Its font's
+  A has an open top (looks like a 4): the game's own Latin font.
 - HUD: SCORE, LIFE and the English stage name (TEYANDE TOWN, BERANME WOODS, GATTEN VALLEY, KUROMOKU BASE).
 - After the ending and back cover the game runs its attract demo (gameplay with no input): not a bug.
 - The book cover lifting/closing animation shows the plaque or back cover skewed for a few frames.

@@ -12,6 +12,8 @@ decompressed tile set, `raw_<bank>.png` = raw 4bpp bank).
 | G4 | in-stage HUD | small icons only; labels are font text (`text.md` format C) | BG3 | - | seen |
 | G5 | irem logo, intro house (`NEW` letters) | English already | - | 0x7627E, 0x91F41 | seen, nothing to do |
 | G6 | continue (warp `continue`) | two carved wooden signposts: retry やるぜ! (left) / quit けえるぞ (right) | BG1 | tiles 0x788C5, defs 0x792F5, layout 0x7949C (loader C2:3ACA) | **English** YEAH! / NOPE (`tools/gfx.py` signs), zoomed in game |
+| G8 | stage play (enemy beaten, game over) | Gen-san's flaming shout てやんでい! | OBJ, 11 sprites, pal 0 | raw 4bpp 0xD44A0 (tile t = VRAM C000 + 32t; tiles 0E-2D, single copy) | **English** TEYANDEI! (`tools/gfx.py` shout, in place), zoomed in game |
+| G9 | boss fights | HUD label てき under LIFE | BG3 font | code C2:14F9 (immediate map words) | **English** BOSS (`engine.py` boss_label) |
 | G7 | in-stage hits | impact bursts (`BAM!`-style) | OBJ | raw banks CA-CF | seen small; read zoomed in phase 8 |
 
 Not graphics (font text, belongs in `text.md`; phase-1 scan missed them): story-book pages before each stage

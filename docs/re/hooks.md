@@ -12,6 +12,7 @@ tools/engine.py` disassembles the hooks in the current build.
 | C2:130D | `LDY $9056,x / LDX #$0698` (stage name from the WRAM copy) | `JML D0:0000` | stage names read from ROM (moved block), no 7E:9000 size limit |
 | D0:0000 | - | stage_name loop: table C0:1056, strings in the stage block's bank, `LDX #$0690` (col 8, was $0698 = col 12), back to C2:1329 | as above; 17 cells to the heart icon |
 | 0x2B432, 0x2B472, 0x2B4B2 | HUD map words とくてん / たいりょ / エリア | SCORE / LIFE / blanks | format C labels in English, AREA dropped for the stage name |
+| C2:14F9 | boss HUD row: `LDA #imm / STA $8B59..` て, blank, き (cols 8-10) + caps D9 (col 12), DA (col 23) | `JSL D0:0080 / BRA` to its `DEC $24 / RTS` | boss_label writes BOSS (4 cells) + the same caps |
 | 0x40D80 | BG3 tile D8 = く + health bar's left cap | the cap alone | after LIFE |
 | 0x41000 + 64N | 16x16 kana/kanji glyph N (TL, BL tiles) | Unifont ASCII glyph (code = ASCII - 0x20, N = 00-5E) | English story font; TR/BR tiles untouched, never drawn |
 

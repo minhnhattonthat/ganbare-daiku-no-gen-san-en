@@ -18,6 +18,10 @@ ROOT = Path(__file__).resolve().parents[1]
 FONT = ROOT / "fonts" / "unifont_ascii.hex"
 SIZE = 0x200000
 CODE = 0x100000  # D0:0000
+BOSS = 0x100080  # D0:0080 boss_label
+# D0:0080, from C2:14F9 (A 16-bit, DB = 7E): BOSS at cols 8-11 of the HUD's third row, then the original bar caps
+BOSS_LABEL = bytes.fromhex("a91b208d598b" "a928208d5b8b" "a92c208d5d8b" "8d5f8b"
+                           "a9d9208d618b" "a9da208d778b" "6b")
 STAGES = 0x1070  # text_map block of the stage names
 
 # block lo -> slot; every text block moves, so the old ranges are free and every build exercises the moves
@@ -49,6 +53,11 @@ PATCHES = [
     (0x2B432, bytes.fromhex("5300470052006d000000"), bytes.fromhex("2c001c0028002b001e00"), "HUD label SCORE"),
     (0x2B472, bytes.fromhex("4f00410067007500"), bytes.fromhex("250022001f001e00"), "HUD label LIFE"),
     (0x2B4B2, bytes.fromhex("8300a7008000"), bytes(6), "HUD label AREA dropped"),
+    # C2:14F9 boss row label: 3 map stores (て, blank, き at cols 8-10) + the bar caps; BOSS needs a 4th, so the
+    # stores move to boss_label (JSL) and the old span is skipped to its DEC $24 / RTS
+    (0x214F9, bytes.fromhex("a952208d598b" "a900208d5b8b" "a946208d5d8b" "a9d9208d618b" "a9da208d778b"),
+     bytes([0x22, BOSS & 0xFF, BOSS >> 8 & 0xFF, 0xC0 | BOSS >> 16, 0x80, 0x18]) + bytes([NOP] * 24),
+     "C2:14F9 boss label -> JSL boss_label"),
     # title answer bubble params (x, y, ...): x 6 was the right column of the vertical kana; English lines start at 4
     (0x10EE, b"\x06", b"\x04", "title answer bubble x = 4 (as the first bubble)"),
     (0x40D80, bytes.fromhex("0804110c21184130215011280815000c"), bytes.fromhex("00000100010001000100010000010000"),
@@ -101,7 +110,9 @@ def apply(rom, writes=None):
     out = bytearray(rom)
     if writes is None:
         code = stage_name(0xC0 | MOVES[STAGES] >> 16)
-        writes = PATCHES + [font_patch(rom), (CODE, b"\xff" * len(code), code, "D0:0000 stage_name")]
+        assert len(code) <= BOSS - CODE
+        writes = PATCHES + [font_patch(rom), (CODE, b"\xff" * len(code), code, "D0:0000 stage_name"),
+                            (BOSS, b"\xff" * len(BOSS_LABEL), BOSS_LABEL, "D0:0080 boss_label")]
     for off, old, new, why in writes:
         if rom[off:off + len(old)] != old:
             raise ValueError(f"{off:06X} {why}: expected {old.hex()}, ROM has {rom[off:off + len(old)].hex()}")

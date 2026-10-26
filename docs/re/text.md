@@ -33,7 +33,7 @@ Addresses: HiROM, file offset = CPU address & 0x3FFFFF. Dump per `rom.sha1`.
 | 0x2B565 | title speech bubble, **vertical**: stored row by row across the columns, read right to left | param 7E:90E2 |
 | 0x2B5A8.. | `© 1993 IREM CORP.`, `TM`, small marks | params 7E:90E8, 7E:90EE, 7E:90F4 |
 | 0x2B5C9-0x2B642 | menu box frame (ASCII art) | param 7E:945E (file 0x145E) |
-| 0x2B890-0x2BA5B | staff credits, 17 strings + an empty one, katakana roles and names | table at 0x2B846: `ptr16 (bank C2), 2 bytes` x18, FFFF end; read by C2:330D `LDA $C2B846,x` |
+| 0x2B890-0x2BA5B | staff credits, 17 strings + an empty one, katakana roles and names | table at 0x2B846: `ptr16 (bank C2), x, flag` x18, FFFF end; read by C2:330D `LDA $C2B846,x`; x >= 32 = drawn in the off-screen half of the 64-cell map and scrolled in (centring keeps that bit) |
 | 0x1113-0x11C8 | options menu (ATTACK/JUMP/SPECIAL/SOUND/BGM/EFFECT/LEVEL/EXIT): **already English** | 7E:9xxx |
 | 0x1236-0x1440 | leftover debug stage select, `STAGE n (1ST HALF) CHKn` ... `FINAL STAGE`: English, debug only | table 7E:91DE, param 7E:91D8 |
 

@@ -57,3 +57,17 @@ def test_continue_blocks_draw_the_english_signs():
     lay = struct.unpack("<64H", decompress(rom, gfx.C_LAYOUT)[0])
     got = redraw(blocks[gfx.C_TILES], defs, lay, 8, (0, 0, 8, 8), gfx.C_PAL)
     assert got.tobytes() == imgs[0][2].tobytes()
+
+
+@needs_rom
+def test_shout_tiles_draw_teyandei_and_keep_the_bang():
+    rom = bytearray(ROM.read_bytes())
+    (orig, img), writes = gfx.shout(bytes(rom))
+    assert writes and all(gfx.S_TILES <= off < gfx.S_TILES + 0x800 for off, *_ in writes)
+    for off, _, new, _ in writes:
+        rom[off:off + 32] = new
+    (got, _), _ = gfx.shout(bytes(rom))
+    assert got.tobytes() == img.tobytes()
+    bang = (gfx.S_WORD, 0, 64, 32)
+    assert img.crop(bang).tobytes() == orig.crop(bang).tobytes()
+    assert img.crop((0, 0, gfx.S_WORD, 32)).getbbox()  # the word is drawn

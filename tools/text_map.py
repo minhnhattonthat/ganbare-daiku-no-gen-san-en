@@ -216,7 +216,8 @@ def layout(rom, items, refs, text, en=(), moves=None, pad=0xFF):
             for j in range(0, len(data) - 2, 4):
                 s = 0x20000 | data[j] | data[j + 1] << 8
                 if s in items and sid(items[s]) in en:
-                    data[j + 2] = (SCREEN - width(text[sid(items[s])])) // 2
+                    # x >= 32 = drawn in the off-screen half of the 64-cell map and scrolled in: keep that half
+                    data[j + 2] = data[j + 2] & SCREEN | (SCREEN - width(text[sid(items[s])])) // 2
         return bytes(data)
 
     def string_data(it, body):

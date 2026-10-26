@@ -433,6 +433,69 @@ def signs(rom):
     return [("continue", orig, img)], {C_TILES: new_tiles, C_DEFS: struct.pack(f"<{n}H", *new_defs)}
 
 
+S_TILES = 0xD44A0  # raw 4bpp OBJ tiles, VRAM C000 in stage play (tile t at S_TILES + 32t)
+# the shout's 11 sprites (OAM in stage play): x, y px in its 64x32 box, first tile, 16x16
+S_SPRITES = ((0, 16, 0x0E, 1), (32, 16, 0x20, 1), (48, 16, 0x22, 1), (48, 0, 0x24, 1), (0, 8, 0x28, 0),
+             (8, 8, 0x29, 0), (16, 8, 0x26, 1), (16, 24, 0x2A, 0), (24, 24, 0x2B, 0), (32, 8, 0x2C, 0),
+             (40, 8, 0x2D, 0))
+S_PAL = [rgb(c) for c in (0x4210, 0x0000, 0x11BE, 0x1E9F, 0x4F5F, 0x00AD, 0x1FFE, 0x1B5F, 0x6F59, 0x5672, 0x00BF,
+                          0x5109, 0x3001, 0x261C, 0x5FFF, 0x7FFF)]  # OBJ palette 0
+S_WORD = 55  # the kana (い reaches into the ! sprites) end here; the tall ! (x 55-63) is kept
+OUTLINE, SHADE, GLINT = 1, 0xC, 0xF
+
+
+def shout_cells():
+    """[(tile, x, y)] for each 8x8 tile of the shout."""
+    return [(t + k, x + 8 * (k & 1), y + 8 * (k >> 4)) for x, y, t, big in S_SPRITES for k in ((0, 1, 16, 17)
+                                                                                           if big else (0,))]
+
+
+def shout(rom):
+    """G8: Gen-san's flaming てやんでい! pop-up (enemy beaten, game over) as TEYANDEI!: the kana's per-row flame colours
+    (2-colour dither by column parity), black outline, dark-blue shadow below, white glint on top edges.
+    Returns (orig, img) as palette-index images and the in-place tile writes."""
+    orig = Image.new("L", (64, 32))
+    for t, x, y in shout_cells():
+        for k, v in enumerate(tile_px(rom[S_TILES:S_TILES + 0x800], t)):
+            orig.putpixel((x + k % 8, y + k // 8), v)
+    fills = {}
+    for y in range(32):
+        for p in (0, 1):
+            c = collections.Counter(orig.getpixel((x, y)) for x in range(p, S_WORD, 2))
+            c = [v for v, _ in c.most_common() if v not in (0, OUTLINE, SHADE, 0xE, GLINT)]
+            if c:
+                fills[y, p] = c[0]
+    img = orig.copy()
+    ImageDraw.Draw(img).rectangle((0, 0, S_WORD - 1, 31), fill=0)
+    big = Image.new("L", img.size)
+    for m, x in letters("TEYANDEI", (S_WORD - 3, 18), 1):
+        big.paste(m, (1 + x, 10))
+    edge = big.filter(ImageFilter.MaxFilter(3))
+    shadow = ImageChops.lighter(ImageChops.offset(edge, 0, 1), ImageChops.offset(edge, 1, 2))
+    for y in range(32):
+        for x in range(S_WORD):
+            if big.getpixel((x, y)):
+                near = min((k for k in fills if k[1] == x % 2), key=lambda k: abs(k[0] - y))
+                img.putpixel((x, y), GLINT if not big.getpixel((x, y - 1)) else fills[near])
+            elif edge.getpixel((x, y)):
+                img.putpixel((x, y), OUTLINE)
+            elif shadow.getpixel((x, y)):
+                img.putpixel((x, y), SHADE)
+    writes = []
+    for t, x, y in shout_cells():
+        new = tile_bytes([img.getpixel((x + k % 8, y + k // 8)) for k in range(64)])
+        old = rom[S_TILES + 32 * t:S_TILES + 32 * t + 32]
+        if new != old:
+            writes.append((S_TILES + 32 * t, old, new, f"G8 shout OBJ tile {t:02X}"))
+    return (orig, img), writes
+
+
+def shout_rgb(img):
+    out = Image.new("RGB", img.size)
+    out.putdata([S_PAL[v] for v in img.getdata()])
+    return out
+
+
 SCREENS = ((title, "G1 title"), (book, "G2 book cover"), (signs, "G6 continue signs"))
 
 
@@ -449,7 +512,7 @@ def patches(rom):
             new_ld = bytes([0xA2, at & 0xFF, at >> 8 & 0xFF, 0xA0, 0xC0 | at >> 16, 0])
             out.append((ld, old, new_ld, f"{what} block {blk:06X} pointer"))
             at += len(new)
-    return out
+    return out + shout(rom)[1]
 
 
 def main():
@@ -462,6 +525,10 @@ def main():
             orig.save(d / f"{name}_jp.png")
             img.save(d / f"{name}_en.png")
         print(what, {f"{b:06X}": len(v) for b, v in blocks.items()})
+    (orig, img), writes = shout(rom)
+    for name, im in (("shout_jp", orig), ("shout_en", img)):
+        shout_rgb(im).resize((512, 256), Image.NEAREST).save(d / f"{name}.png")
+    print("G8 shout", len(writes), "tiles")
 
 
 if __name__ == "__main__":

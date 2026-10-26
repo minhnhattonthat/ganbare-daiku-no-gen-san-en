@@ -87,7 +87,7 @@ def test_no_branch_into_a_hook(rom):
                 t = int.from_bytes(rom[p + 1:p + 4], "little") - 0xC00000
             if t is not None and o < t < o + n:
                 hits.append(f"{p:06X} -> {t:06X}")
-    assert len(spans) == 7 and not hits
+    assert len(spans) == 8 and not hits
 
 
 @needs_rom
