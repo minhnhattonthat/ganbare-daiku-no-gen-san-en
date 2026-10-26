@@ -60,6 +60,11 @@ Updated at the end of every session. Keep it to what the next session needs; his
     text (`bubble` box, 6 cells: the answer only clears cols 4-9; answer x param 6 -> 4 in engine.py).
     `tests/test_gfx.py`: re-rendering the new blocks gives the drawn images; the title's forest layer is untouched.
     `tools/debug/tour.py` now also covers every stage half, boss and the back cover; `docs/visual-qa-brief.md`.
+  - Phase 8 QA rounds 1-2 (92 sheets, 4 visual-qa agents each) found and fixed: boss HUD label てき -> BOSS (hook
+    C2:14F9 -> D0:0080 boss_label), shout sprite てやんでい! -> TEYANDEI! (G8, raw OBJ tiles 0xD44A0 in place),
+    credits drawn over each other (centring dropped the x >= 32 "scroll in" half; kept now), epilogue ticker tail
+    left under the credits (English line needs 64 trailing blanks, 1 cell each), stage 1 boss arena poster
+    クロモクドーム完成図 -> KUROMOKU DOME (G10, block 0x6D86C repointed via table 0x6E7F). Round 3 on the final build.
 - **Next:**
   1. Phase 8: tour (`tools/debug/tour.py`, + `tour_jp`) -> `qa_gate.py init/todo` -> visual-qa subagents ->
      fix issues -> `qa_gate.py check` exit 0. Then phase 9 (release).

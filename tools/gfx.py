@@ -490,6 +490,46 @@ def shout(rom):
     return (orig, img), writes
 
 
+P_TILES = 0x6D86C  # stage 1 boss arena BG tiles (type 2), named by the 3-byte entry 3 of the table at file 0x6E7F
+P_PTR = 0x6E88     # (7E:EE7F in the 7E:8000 copy; read by C2:630D for stage index 7E:ECC7)
+P_CAPTION = (0x44, 0x54, 0x55, 0x56, 0x57, 0x62, 0x63)  # BG1 row 12, cols 3-9: the poster's caption, pal 4
+P_PANEL, P_INK = 6, 1
+# 3x5 capitals (M 5 wide) for the caption
+SMALL_FONT = {
+    "K": ("#.#", "#.#", "##.", "#.#", "#.#"), "U": ("#.#", "#.#", "#.#", "#.#", "###"),
+    "R": ("##.", "#.#", "##.", "#.#", "#.#"), "O": ("###", "#.#", "#.#", "#.#", "###"),
+    "M": ("#...#", "##.##", "#.#.#", "#...#", "#...#"), "D": ("##.", "#.#", "#.#", "#.#", "##."),
+    "E": ("###", "#..", "##.", "#..", "###"), " ": ("..",) * 5,
+}
+
+
+def poster(rom):
+    """G10: the stage 1 boss arena's wall poster of the Kuromoku Gang's dome, captioned クロモクドーム完成図 (Kuromoku
+    Dome, finished design): KUROMOKU DOME in the caption's ink on its blank panel (frame columns kept).
+    Returns (orig, img) as index images of the caption strip and the new tile data."""
+    tiles = bytearray(decompress(rom, P_TILES)[0])
+    w = 8 * len(P_CAPTION)
+    orig = Image.new("L", (w, 8))
+    for k, t in enumerate(P_CAPTION):
+        for j, v in enumerate(tile_px(tiles, t)):
+            orig.putpixel((8 * k + j % 8, j // 8), v)
+    img = orig.copy()
+    ImageDraw.Draw(img).rectangle((1, 1, w - 2, 6), fill=P_PANEL)
+    glyphs = [SMALL_FONT[c] for c in "KUROMOKU DOME"]
+    width = sum(len(g[0]) + 1 for g in glyphs) - 1
+    x = (w - width) // 2
+    assert x >= 1, width
+    for g in glyphs:
+        for y, row in enumerate(g):
+            for gx, v in enumerate(row):
+                if v == "#":
+                    img.putpixel((x + gx, 1 + y), P_INK)
+        x += len(g[0]) + 1
+    for k, t in enumerate(P_CAPTION):
+        tiles[32 * t:32 * t + 32] = tile_bytes([img.getpixel((8 * k + j % 8, j // 8)) for j in range(64)])
+    return (orig, img), bytes(tiles)
+
+
 def shout_rgb(img):
     out = Image.new("RGB", img.size)
     out.putdata([S_PAL[v] for v in img.getdata()])
@@ -512,6 +552,11 @@ def patches(rom):
             new_ld = bytes([0xA2, at & 0xFF, at >> 8 & 0xFF, 0xA0, 0xC0 | at >> 16, 0])
             out.append((ld, old, new_ld, f"{what} block {blk:06X} pointer"))
             at += len(new)
+    new = raw(poster(rom)[1])
+    assert len(new) <= 0x10000 - (at & 0xFFFF)
+    out.append((at, b"\xff" * len(new), new, f"G10 poster block {P_TILES:06X}"))
+    old = bytes([P_TILES & 0xFF, P_TILES >> 8 & 0xFF, 0xC0 | P_TILES >> 16])
+    out.append((P_PTR, old, bytes([at & 0xFF, at >> 8 & 0xFF, 0xC0 | at >> 16]), "G10 poster block pointer"))
     return out + shout(rom)[1]
 
 
@@ -529,6 +574,9 @@ def main():
     for name, im in (("shout_jp", orig), ("shout_en", img)):
         shout_rgb(im).resize((512, 256), Image.NEAREST).save(d / f"{name}.png")
     print("G8 shout", len(writes), "tiles")
+    (orig, img), _ = poster(rom)
+    for name, im in (("poster_jp", orig), ("poster_en", img)):
+        im.point(lambda v: {P_PANEL: 230, P_INK: 0}.get(v, 128)).resize((448, 64), Image.NEAREST).save(d / f"{name}.png")
 
 
 if __name__ == "__main__":

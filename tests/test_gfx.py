@@ -60,6 +60,17 @@ def test_continue_blocks_draw_the_english_signs():
 
 
 @needs_rom
+def test_poster_block_changes_only_the_caption():
+    rom = ROM.read_bytes()
+    (orig, img), tiles = gfx.poster(rom)
+    old = decompress(rom, gfx.P_TILES)[0]
+    assert len(tiles) == len(old) and orig.tobytes() != img.tobytes()
+    changed = {i // 32 for i in range(len(old)) if tiles[i] != old[i]}
+    assert changed and changed <= set(gfx.P_CAPTION)
+    assert all(img.getpixel((x, y)) == orig.getpixel((x, y)) for x in (0, img.size[0] - 1) for y in range(8))
+
+
+@needs_rom
 def test_shout_tiles_draw_teyandei_and_keep_the_bang():
     rom = bytearray(ROM.read_bytes())
     (orig, img), writes = gfx.shout(bytes(rom))

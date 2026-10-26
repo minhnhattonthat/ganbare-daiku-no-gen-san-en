@@ -14,6 +14,7 @@ decompressed tile set, `raw_<bank>.png` = raw 4bpp bank).
 | G6 | continue (warp `continue`) | two carved wooden signposts: retry やるぜ! (left) / quit けえるぞ (right) | BG1 | tiles 0x788C5, defs 0x792F5, layout 0x7949C (loader C2:3ACA) | **English** YEAH! / NOPE (`tools/gfx.py` signs), zoomed in game |
 | G8 | stage play (enemy beaten, game over) | Gen-san's flaming shout てやんでい! | OBJ, 11 sprites, pal 0 | raw 4bpp 0xD44A0 (tile t = VRAM C000 + 32t; tiles 0E-2D, single copy) | **English** TEYANDEI! (`tools/gfx.py` shout, in place), zoomed in game |
 | G9 | boss fights | HUD label てき under LIFE | BG3 font | code C2:14F9 (immediate map words) | **English** BOSS (`engine.py` boss_label) |
+| G10 | stage 1 boss arena (warp `clear_2` ~f2400) | wall poster caption クロモクドーム完成図 under the dome picture | BG1 row 12, cols 3-9, pal 4 | tiles 044, 054-057, 062-063 of block 0x6D86C (type 2), named by entry 3 of the 3-byte table at 0x6E7F (7E:EE7F, C2:630D) | **English** KUROMOKU DOME (`tools/gfx.py` poster, raw block in D8), zoomed in game |
 | G7 | in-stage hits | impact bursts (`BAM!`-style) | OBJ | raw banks CA-CF | seen small; read zoomed in phase 8 |
 
 Not graphics (font text, belongs in `text.md`; phase-1 scan missed them): story-book pages before each stage

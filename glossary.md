@@ -48,6 +48,7 @@ Binding for every translator and reviewer. Agents propose additions in reports; 
 | とくてん | SCORE | 5 | | |
 | たいりょく | LIFE | 4 | the health bar | |
 | てき (boss HUD label) | BOSS | 4 | boss fights: the boss's bar under LIFE | ENEMY (5 cells, no room) |
+| クロモクドーム完成図 (boss arena poster) | KUROMOKU DOME | 13 | stage 1 boss arena wall poster, 3x5 pixel font | |
 | てやんでい! (shout sprite) | TEYANDEI! | - | OBJ graphic, enemy beaten / life lost | |
 | エリア | (dropped) | | the stage name takes its cells | |
 
