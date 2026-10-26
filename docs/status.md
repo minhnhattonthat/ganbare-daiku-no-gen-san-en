@@ -70,6 +70,9 @@ Updated at the end of every session. Keep it to what the next session needs; his
     クロモクドーム完成図 -> KUROMOKU DOME (G10, block 0x6D86C repointed via table 0x6E7F). Round 3 (+1 sheet) on the
     final build: all ok, gate exit 0. Cards 1-1..4-2 and Finale seen whole in zoomed shots (1-2/2-2/3-2 from dense
     runs `work/qa/cards/`), game over, continue, credits, back cover too.
+  - Issue #1 (2026-10-26): v1.0 was built on a non-No-Intro dump (SHA-1 7dc58aa0...). Rebased on the No-Intro dump
+    (SHA-1 90b419d3..., CRC32 206BD866; its internal checksum doesn't match either, that's normal for this cart):
+    `rom.sha1` + README updated; build (write-log original-byte check), check, smoke and tour pass unchanged.
 - **Next:**
   1. Player bug reports (`gh issue list --label bug`). Any fix: rebuild, re-tour (`tour.py` writes
      `work/qa/tour/rom.sha1`, release.py refuses any other build), re-review, `release.py --version 1.1`.

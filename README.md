@@ -32,7 +32,7 @@ git clone https://github.com/minhnhattonthat/ganbare-daiku-no-gen-san-en
 cd ganbare-daiku-no-gen-san-en
 git config core.hooksPath tools/hooks                  # pre-commit runs tools/check.py
 # copy your dump to: rom/Ganbare! Daiku no Gen-san (Japan).sfc
-#   (1048576 bytes, no header, SHA-1 7dc58aa0fcf643092e995897dae3de7bdfd05c6e; the build refuses any other dump, see rom.sha1)
+#   (1048576 bytes, no header, No-Intro SHA-1 90b419d3e71b17490f3aed0ad2ae3158af94ed33, CRC32 206BD866; the build refuses any other dump, see rom.sha1)
 python -X utf8 build.py                                # -> build/gensan_en.sfc
 python -X utf8 tools/check.py                          # tests + text lint
 ```
