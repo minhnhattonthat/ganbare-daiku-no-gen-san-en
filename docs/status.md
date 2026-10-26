@@ -2,9 +2,9 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 1-7 done; phase 8 (QA in the emulator) in progress 2026-10-26: graphics text done, tour + visual-QA
-  gate running. Last build: `build/gensan_en.sfc` sha1 06c225fcea4316a6fbaa1ef3785fc643fef6f108 (89 strings in
-  English, title/book/continue/back-cover graphics in English).
+- **Phase:** 1-8 done 2026-10-26 (`qa_gate.py check` exit 0: 92 sheets ok, smoke ok). Next: phase 9 (release).
+  Last build: `build/gensan_en.sfc` sha1 b1d551c62019e47c75a7d28ac58938faaabf1e95 (89 strings in English,
+  graphics G1-G3, G6, G8-G10 in English).
 - **Done:**
   - Step 0: template, rulings D1-D8, ROM pin, MesenCE in `tools/mesen/`, guard hook, pre-commit check.
   - Phase 1: no earlier fan patch (the series is *Hammerin' Harry* abroad). Known text: title bubble, staff credits,
@@ -64,15 +64,21 @@ Updated at the end of every session. Keep it to what the next session needs; his
     C2:14F9 -> D0:0080 boss_label), shout sprite てやんでい! -> TEYANDEI! (G8, raw OBJ tiles 0xD44A0 in place),
     credits drawn over each other (centring dropped the x >= 32 "scroll in" half; kept now), epilogue ticker tail
     left under the credits (English line needs 64 trailing blanks, 1 cell each), stage 1 boss arena poster
-    クロモクドーム完成図 -> KUROMOKU DOME (G10, block 0x6D86C repointed via table 0x6E7F). Round 3 on the final build.
+    クロモクドーム完成図 -> KUROMOKU DOME (G10, block 0x6D86C repointed via table 0x6E7F). Round 3 (+1 sheet) on the
+    final build: all ok, gate exit 0. Cards 1-1..4-2 and Finale seen whole in zoomed shots (1-2/2-2/3-2 from dense
+    runs `work/qa/cards/`), game over, continue, credits, back cover too.
 - **Next:**
-  1. Phase 8: tour (`tools/debug/tour.py`, + `tour_jp`) -> `qa_gate.py init/todo` -> visual-qa subagents ->
-     fix issues -> `qa_gate.py check` exit 0. Then phase 9 (release).
+  1. Phase 9: `tools/release.py` (runs `qa_gate.py check`; jp_left on the release build; debug warp off; BPS
+     made, re-applied, verified; README with base ROM hashes; zip = patch + README). Never `gh release create`.
+     A rebuild changes every tour sheet (see Gaps): re-tour + re-review before the gate passes again.
 - **Open bugs:** none.
 - **Gaps (non-blocking):** no warp for a won boss fight (the stage-clear moment inside stage play): fight AI with the
   cheat RAM didn't land hits; `go = {0x8053, 0}` skips straight to the clear handler instead. Boss intro/defeat
   sprites: no lettering seen in stage-1 sprite VRAM (only GAME OVER, English); the tour's boss warps are the check.
-  Map label/font cells F7/FA/FB not read yet. Ticker cue C2:329E: what 7E:9026 bit 0 triggers is unread
+  Map label/font cells F7/FA/FB not read yet. The Prologue card (card0 "Prologue Kuromoku Gang Back!") was not
+  seen: new game plays the prologue pages, then card 1-1; same renderer as the other cards. Tour runs are not
+  pixel-repeatable (same ROM, same frame number, different pixels: shots land a frame or so apart), so every
+  rebuild resets all qa_gate verdicts; qa_gate also keeps a vanished sheet as `missing` (row removed by hand). Ticker cue C2:329E: what 7E:9026 bit 0 triggers is unread
   (only its timing is kept).
 - **Waiting on the user:** nothing. Defaults taken (non-blocking): the title logo gets redrawn in English as
   *Hammerin' Harry* (D5: an official English name exists); the ROM expands to 2 MiB for new text/font/graphics;
