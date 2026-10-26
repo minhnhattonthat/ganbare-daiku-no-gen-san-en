@@ -14,3 +14,4 @@ decision replaces one, mark the old one "replaced by D<n>" instead of deleting i
 | D6 | 2026-10-25 | Specs and plans | need approval, pre-approved | Pre-approved: keep going through checkpoints, report at the end. |
 | D7 | 2026-10-25 | Existing saves / savestates | user's, none | None provided; build the debug tool as usual. |
 | D8 | 2026-10-25 | Publishing | - | Never `gh release create`, never change repo visibility; the run ends at a built and verified release zip. Push to main at each phase end is approved. |
+| D9 | 2026-10-26 | Publishing v1.0 | - | User: "continue to release and publish to github minhnhattonthat". Overrides D8 for v1.0: `gh release create v1.0` on minhnhattonthat/ganbare-daiku-no-gen-san-en approved. Repo visibility (private) still asked separately. |

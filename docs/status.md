@@ -2,7 +2,10 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 1-8 done 2026-10-26 (`qa_gate.py check` exit 0: 92 sheets ok, smoke ok). Next: phase 9 (release).
+- **Phase:** 1-9 done 2026-10-26. v1.0: `release/GanbareDaikuNoGenSan_EN_v1.0.zip`, patch sha1
+  395897464754eb0e07f2cd464bbe6d8371161bf5, patched CRC32 5432F71A; GitHub release v1.0 (D9).
+  `tools/release.py`: build, check, smoke, jp_left on the vacated original text ranges (positive control on the
+  original: 213 runs), tour sha1 = build sha1, qa_gate check, checksum, BPS re-applied + compared, zip.
   Last build: `build/gensan_en.sfc` sha1 b1d551c62019e47c75a7d28ac58938faaabf1e95 (89 strings in English,
   graphics G1-G3, G6, G8-G10 in English).
 - **Done:**
@@ -68,9 +71,8 @@ Updated at the end of every session. Keep it to what the next session needs; his
     final build: all ok, gate exit 0. Cards 1-1..4-2 and Finale seen whole in zoomed shots (1-2/2-2/3-2 from dense
     runs `work/qa/cards/`), game over, continue, credits, back cover too.
 - **Next:**
-  1. Phase 9: `tools/release.py` (runs `qa_gate.py check`; jp_left on the release build; debug warp off; BPS
-     made, re-applied, verified; README with base ROM hashes; zip = patch + README). Never `gh release create`.
-     A rebuild changes every tour sheet (see Gaps): re-tour + re-review before the gate passes again.
+  1. Player bug reports (`gh issue list --label bug`). Any fix: rebuild, re-tour (`tour.py` writes
+     `work/qa/tour/rom.sha1`, release.py refuses any other build), re-review, `release.py --version 1.1`.
 - **Open bugs:** none.
 - **Gaps (non-blocking):** no warp for a won boss fight (the stage-clear moment inside stage play): fight AI with the
   cheat RAM didn't land hits; `go = {0x8053, 0}` skips straight to the clear handler instead. Boss intro/defeat

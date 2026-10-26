@@ -5,7 +5,7 @@ contact sheet of the frames that changed. For the marker build and the QA tours.
 
 Out: <out>/<scene>/f*.png, sheet*.png (sheet.py --changed). Exit 1 if a warp failed.
 """
-import argparse, os, subprocess, sys
+import argparse, hashlib, os, subprocess, sys
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
@@ -50,7 +50,13 @@ def main():
         res = list(ex.map(lambda n: run(a.rom, a.out, n, SCENES.get(n, 3000), a.every, a.adv), names))
     for name, ok in res:
         print(("ok   " if ok else "FAIL ") + name)
-    return 0 if all(ok for _, ok in res) else 1
+    if not all(ok for _, ok in res):
+        return 1
+    # release.py refuses a build other than the one toured last
+    # shortcut: an --only run marks the whole tour as this build's; qa_gate still needs every sheet re-checked
+    with open(os.path.join(a.out, "rom.sha1"), "w") as f:
+        f.write(hashlib.sha1(open(a.rom, "rb").read()).hexdigest() + "\n")
+    return 0
 
 
 if __name__ == "__main__":

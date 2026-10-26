@@ -21,7 +21,7 @@ Skill: translate-retro-game (Claude Code: plugin, enabled in .claude/settings.js
 - Subagents: dispatch the `.claude/agents/` types (translator, reviewer, visual-qa, playtester), never general-purpose: their short tool list cuts each agent's start-up context from ~43k to ~9k tokens.
 - The user's decisions, with the options and reasons: `docs/decisions.md`. Read it before asking the user anything; add each new ruling there the same session.
 - Player bug reports: GitHub issues (`gh issue list --label bug`). Copy the attached save into `work/states/`, reproduce in the emulator, fix, commit with `Fixes #N`, and update `docs/status.md`.
-- Never run `gh release create`, never change repo visibility. The run ends at a built and verified release zip.
+- Never run `gh release create` or change repo visibility without the user's say-so for that version (D8, D9).
 - Boot route `tools/routes/boot.txt`: the original reaches the house/stage intro at ~f1800; the frame right after the second Start is black (fade), so smoke needs the 900-frame tail.
 
 ## Status
