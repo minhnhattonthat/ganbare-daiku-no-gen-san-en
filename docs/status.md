@@ -74,7 +74,9 @@ Updated at the end of every session. Keep it to what the next session needs; his
     (SHA-1 90b419d3..., CRC32 206BD866; its internal checksum doesn't match either, that's normal for this cart):
     `rom.sha1` + README updated; build (write-log original-byte check), check, smoke and tour pass unchanged.
     The two dumps differ in 4 bytes only: file 0x2008D (C2:008D) `8F 0C 42 00` (STA $00420C, HDMA enable) was
-    NOPed (`EA EA EA EA`) in the old one, so v1.0 QA ran with that HDMA write disabled.
+    NOPed (`EA EA EA EA`) in the old one, so v1.0 QA ran with that HDMA write disabled. Re-QA on the No-Intro
+    base: tour_jp re-shot, 89 sheets / 4 visual-qa agents, all ok (HDMA effects match the original); released
+    v1.1 (D10) from branch `fix/issue-1`, patch sha1 324eb5ca..., base CRC32 206BD866.
 - **Next:**
   1. Player bug reports (`gh issue list --label bug`). Any fix: rebuild, re-tour (`tour.py` writes
      `work/qa/tour/rom.sha1`, release.py refuses any other build), re-review, `release.py --version 1.1`.
