@@ -9,6 +9,18 @@ no game data you can play; you need your own dump of the Japanese game.
 **Found a bug?** [Report it](../../issues/new/choose): untranslated text, typos, overflow, crashes. Attaching a savestate
 helps most.
 
+## Translation status
+
+| Part | Status |
+|---|---|
+| Story pages, dialogue, chapter cards, ending, epilogue | Translated |
+| HUD labels and stage names | Translated |
+| Title logo and graphics with text | Translated (logo redrawn as *Hammerin' Harry*; book cover, continue signs, shout sprite, boss poster) |
+| Staff roll | Translated |
+| Options menu | English in the original |
+
+Known issues: none known; [report one](../../issues/new/choose).
+
 ## What's here
 
 | Path | What it is |
